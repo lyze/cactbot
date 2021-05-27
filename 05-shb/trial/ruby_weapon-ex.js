@@ -9,7 +9,7 @@ Options.Triggers.push({
       id: 'RubyEx Magitek Meteor Behind',
       regex: /Magitek Meteor/,
       beforeSeconds: 4,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Hide Behind Meteor',
@@ -25,7 +25,7 @@ Options.Triggers.push({
       id: 'RubyEx Magitek Meteor Away',
       regex: /Magitek Meteor/,
       beforeSeconds: 0,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away From Meteor',
@@ -58,9 +58,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ルビーウェポン', id: '4B03' }),
       netRegexCn: NetRegexes.startsUsing({ source: '红宝石神兵', id: '4B03' }),
       netRegexKo: NetRegexes.startsUsing({ source: '루비 웨폰', id: '4B03' }),
-      condition: function(data) {
-        return data.role === 'tank' || data.role === 'healer';
-      },
+      condition: (data) => data.role === 'tank' || data.role === 'healer',
       response: Responses.tankBusterSwap(),
     },
     {
@@ -71,7 +69,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ルビーウェポン', id: '4AD0', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '红宝石神兵', id: '4AD0', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '루비 웨폰', id: '4AD0', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away from Lines',
@@ -91,7 +89,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ルビーウェポン', id: '4ACF', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '红宝石神兵', id: '4ACF', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '루비 웨폰', id: '4ACF', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get On Lines',
@@ -132,7 +130,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '红宝石神兵', id: '4AD8', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '루비 웨폰', id: '4AD8', capture: false }),
       suppressSeconds: 1,
-      response: Responses.stackMarker('alert'),
+      response: Responses.stackMarker(),
     },
     {
       id: 'RubyEx Raven\'s Image',
@@ -142,7 +140,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatantFull({ name: 'ネールの幻影' }),
       netRegexCn: NetRegexes.addedCombatantFull({ name: '奈尔的幻影' }),
       netRegexKo: NetRegexes.addedCombatantFull({ name: '넬의 환영' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         // 112,108 (east)
         // 88,108 (west)
         // TODO: it's impossible to do anything with this now,
@@ -164,7 +162,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ルビーウェポン', id: '4B2D', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '红宝石神兵', id: '4B2D', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '루비 웨폰', id: '4B2D', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Enrage!',
@@ -179,11 +177,11 @@ Options.Triggers.push({
     {
       id: 'RubyEx Pall of Rage',
       netRegex: NetRegexes.gainsEffect({ effectId: '8A2' }),
-      preRun: function(data, matches) {
+      preRun: (data, matches) => {
         data.colors = data.colors || {};
         data.colors[matches.target] = 'blue';
       },
-      infoText: function(data, matches, output) {
+      infoText: (data, matches, output) => {
         if (data.me === matches.target)
           return output.text();
       },
@@ -201,11 +199,11 @@ Options.Triggers.push({
     {
       id: 'RubyEx Pall of Grief',
       netRegex: NetRegexes.gainsEffect({ effectId: '8A3' }),
-      preRun: function(data, matches) {
+      preRun: (data, matches) => {
         data.colors = data.colors || {};
         data.colors[matches.target] = 'red';
       },
-      infoText: function(data, matches, output) {
+      infoText: (data, matches, output) => {
         if (data.me === matches.target)
           return output.text();
       },
@@ -234,7 +232,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ネールの幻影', id: '4AFF' }),
       netRegexCn: NetRegexes.startsUsing({ source: '奈尔的幻影', id: '4AFF' }),
       netRegexKo: NetRegexes.startsUsing({ source: '넬의 환영', id: '4AFF' }),
-      condition: function(data, matches) {
+      condition: (data, matches) => {
         if (data.role !== 'healer' || data.role !== 'tank')
           return false;
         if (data.colors[data.me] === data.colors[matches.target])
@@ -247,7 +245,7 @@ Options.Triggers.push({
       id: 'RubyEx Raven Death',
       netRegex: NetRegexes.losesEffect({ effectId: '8A3', capture: false }),
       suppressSeconds: 10,
-      run: function(data) {
+      run: (data) => {
         // This effect persists through death, and is removed off of everybody
         // about two seconds before the 19: defeated log line.
         // TODO: it'd be nice to say to attack the other add, if you knew which one was dead.
@@ -262,7 +260,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ルビーウェポン', id: '4AFC', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '红宝石神兵', id: '4AFC', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '루비 웨폰', id: '4AFC', capture: false }),
-      preRun: function(data) {
+      preRun: (data) => {
         for (const id in data.colors)
           data.colors[id] = data.colors[id] === 'red' ? 'blue' : 'red';
         data.ravens = data.ravens || {};
@@ -272,7 +270,7 @@ Options.Triggers.push({
       },
       // This gets cast twice (maybe once for each add)?
       suppressSeconds: 1,
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         // TODO: it'd be nice to call out which raven was alive?
         if (data.ravenDead)
           return;
@@ -313,9 +311,7 @@ Options.Triggers.push({
       id: 'RubyEx Meteor',
       netRegex: NetRegexes.headMarker({ id: '00(?:C[A-F]|D0|D1)' }),
       condition: Conditions.targetIsYou(),
-      infoText: function(data, matches, output) {
-        return output.text({ num: parseInt(matches.id, 16) - parseInt('00CA', 16) + 1 });
-      },
+      infoText: (_data, matches, output) => output.text({ num: parseInt(matches.id, 16) - parseInt('00CA', 16) + 1 }),
       outputStrings: {
         text: {
           en: '${num}',
@@ -345,7 +341,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ルビーウェポン', id: '4AF0', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '红宝石神兵', id: '4AF0', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '루비 웨폰', id: '4AF0', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away from Meteor!',
@@ -367,7 +363,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.ability({ source: '루비 웨폰', id: '4AB6', capture: false }),
       condition: (data) => data.role === 'tank',
       delaySeconds: 11.5,
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stand in Meteor Tankbuster',
@@ -389,7 +385,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.ability({ source: '루비 웨폰', id: '4AB6', capture: false }),
       condition: (data) => data.role !== 'tank',
       delaySeconds: 13,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill Meteor Adds',
@@ -405,7 +401,7 @@ Options.Triggers.push({
       id: 'RubyEx Bradamante',
       netRegex: NetRegexes.headMarker({ id: '0017' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid tanks with laser',
@@ -425,7 +421,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatantFull({ name: 'コメット' }),
       netRegexCn: NetRegexes.addedCombatantFull({ name: '彗星' }),
       netRegexKo: NetRegexes.addedCombatantFull({ name: '혜성' }),
-      infoText: function(data, matches, output) {
+      infoText: (_data, matches, output) => {
         // Possible positions:
         // 85.16,100.131 and 115.16,100.131
         // 100.16,85.13102 and 100.16,115.131

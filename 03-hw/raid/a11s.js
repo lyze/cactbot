@@ -42,7 +42,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'クルーズチェイサー', id: '1A6C', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '巡航驱逐者', id: '1A6C', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '순항추격기', id: '1A6C', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Clock',
@@ -72,7 +72,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'クルーズチェイサー', id: '1A6E', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '巡航驱逐者', id: '1A6E', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '순항추격기', id: '1A6E', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Bait Optical Sight',
@@ -119,7 +119,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatant({ name: 'イーディーディー', capture: false }),
       netRegexCn: NetRegexes.addedCombatant({ name: '护航机甲', capture: false }),
       netRegexKo: NetRegexes.addedCombatant({ name: 'E\\.D\\.D\\.', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill Add',
@@ -139,7 +139,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatant({ name: 'ショルダーアーマー', capture: false }),
       netRegexCn: NetRegexes.addedCombatant({ name: '肩部装甲', capture: false }),
       netRegexKo: NetRegexes.addedCombatant({ name: '견갑부', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Break Pauldron',
@@ -161,12 +161,12 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '巡航驱逐者', id: '1A77' }),
       netRegexKo: NetRegexes.startsUsing({ source: '순항추격기', id: '1A77' }),
       // TODO: maybe we need a Responses.abilityOn()
-      alarmText: function(data, matches, output) {
+      alarmText: (data, matches, output) => {
         if (data.me !== matches.target)
           return;
         return output.gaOnYou();
       },
-      infoText: function(data, matches, output) {
+      infoText: (data, matches, output) => {
         if (data.me === matches.target)
           return;
         return output.gaOn({ player: data.ShortName(matches.target) });
@@ -193,7 +193,7 @@ Options.Triggers.push({
     {
       id: 'A11S Limit Cut Collect',
       netRegex: NetRegexes.headMarker({ id: '00(?:4F|5[0-6])' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         const limitCutNumber = {
           '004F': 1,
           '0050': 2,
@@ -226,10 +226,8 @@ Options.Triggers.push({
       id: 'A11S Limit Cut Number',
       netRegex: NetRegexes.headMarker({ id: '00(?:4F|5[0-6])' }),
       condition: Conditions.targetIsYou(),
-      durationSeconds: function(data) {
-        return data.limitCutDelay;
-      },
-      infoText: (data, _, output) => output.text({ num: data.limitCutNumber }),
+      durationSeconds: (data) => data.limitCutDelay,
+      infoText: (data, _matches, output) => output.text({ num: data.limitCutNumber }),
       outputStrings: {
         text: {
           en: '${num}',
@@ -245,10 +243,8 @@ Options.Triggers.push({
       id: 'A11S Limit Cut Mechanic',
       netRegex: NetRegexes.headMarker({ id: '00(?:4F|5[0-6])' }),
       condition: Conditions.targetIsYou(),
-      delaySeconds: function(data) {
-        return data.limitCutDelay - 5;
-      },
-      alertText: function(data, _, output) {
+      delaySeconds: (data) => data.limitCutDelay - 5,
+      alertText: (data, _matches, output) => {
         if (data.limitCutNumber % 2 === 1) {
           // Odds
           return output.knockbackCleave();
@@ -297,7 +293,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '巡航驱逐者', id: '1A80', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '순항추격기', id: '1A80', capture: false }),
       delaySeconds: 30,
-      run: function(data) {
+      run: (data) => {
         delete data.limitCutDelay;
         delete data.limitCutNumber;
         delete data.limitCutMap;
@@ -311,7 +307,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'クルーズチェイサー', id: '1A7F' }),
       netRegexCn: NetRegexes.startsUsing({ source: '巡航驱逐者', id: '1A7F' }),
       netRegexKo: NetRegexes.startsUsing({ source: '순항추격기', id: '1A7F' }),
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.me === matches.target)
           return output.sharedTankbusterOnYou();
         if (data.role === 'tank' || data.role === 'healer' || data.job === 'BLU')
@@ -344,7 +340,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'クルーズチェイサー', id: '1A7F', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '巡航驱逐者', id: '1A7F', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '순항추격기', id: '1A7F', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Hide Behind Tower',
@@ -364,7 +360,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatant({ name: 'プラズマシールド', capture: false }),
       netRegexCn: NetRegexes.addedCombatant({ name: '等离子护盾', capture: false }),
       netRegexKo: NetRegexes.addedCombatant({ name: '플라스마 방어막', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Break Shield From Front',
@@ -379,7 +375,7 @@ Options.Triggers.push({
     {
       id: 'A11S Plasma Shield Shattered',
       netRegex: NetRegexes.gameLog({ line: 'The plasma shield is shattered.*?', capture: false }),
-      response: Responses.spread('info'),
+      response: Responses.spread(),
     },
     {
       id: 'A11S Blassty Charge',
@@ -390,12 +386,12 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'クルーズチェイサー', id: '1A83' }),
       netRegexCn: NetRegexes.startsUsing({ source: '巡航驱逐者', id: '1A83' }),
       netRegexKo: NetRegexes.startsUsing({ source: '순항추격기', id: '1A83' }),
-      alarmText: function(data, matches, output) {
+      alarmText: (data, matches, output) => {
         if (data.me !== matches.target)
           return;
         return output.chargeOnYou();
       },
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.me === matches.target)
           return;
         return output.chargeOn({ player: data.ShortName(matches.target) });

@@ -46,7 +46,7 @@ Options.Triggers.push({
       id: 'E8S Rush',
       regex: /Rush \d/,
       beforeSeconds: 5,
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         data.rushCount = data.rushCount || 0;
         data.rushCount++;
         return output.text({ num: data.rushCount });
@@ -83,14 +83,14 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4D66', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D66', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D66', capture: false }),
-      condition: function(data) {
+      condition: (data) => {
         // Have not seen any frost yet.
         return !data.firstFrost;
       },
       // This cast is 5 seconds, so don't muddy the back/front call.
       // But also don't wait too long to give directions?
       delaySeconds: 2,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           // Sorry, there are no mirror colors in the logs (YET),
@@ -112,12 +112,10 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4D67', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D67', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D67', capture: false }),
-      condition: function(data) {
-        return !data.firstFrost;
-      },
+      condition: (data) => !data.firstFrost,
       // See comments on Biting Frost First Mirror above.
       delaySeconds: 2,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Go Front, Green Mirror Side',
@@ -138,7 +136,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '冰面镜', id: '4DB[78]', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '얼음 거울', id: '4DB[78]', capture: false }),
       suppressSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Swap Sides',
@@ -159,7 +157,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D66', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D66', capture: false }),
       response: Responses.getBehind(),
-      run: function(data) {
+      run: (data) => {
         data.firstFrost = data.firstFrost || 'biting';
       },
     },
@@ -172,7 +170,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D67', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D67', capture: false }),
       response: Responses.goFrontOrSides(),
-      run: function(data) {
+      run: (data) => {
         data.firstFrost = data.firstFrost || 'driving';
       },
     },
@@ -187,7 +185,7 @@ Options.Triggers.push({
       condition: (data) => data.role === 'tank',
       delaySeconds: 43,
       suppressSeconds: 80,
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         if (data.firstFrost === 'driving')
           return output.bitingFrostNext();
         return output.drivingFrostNext();
@@ -231,7 +229,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.abilityFull({ source: '希瓦', id: '4DA0' }),
       netRegexKo: NetRegexes.abilityFull({ source: '시바', id: '4DA0' }),
       suppressSeconds: 20,
-      infoText: function(data, matches, output) {
+      infoText: (_data, matches, output) => {
         const x = parseFloat(matches.x);
         if (x >= 99 && x <= 101)
           return output.northSouth();
@@ -264,11 +262,9 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'シヴァ', id: '4D6C', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '希瓦', id: '4D6C', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '시바', id: '4D6C', capture: false }),
-      condition: function(data) {
-        return data.CanCleanse();
-      },
+      condition: (data) => data.CanCleanse(),
       suppressSeconds: 1,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Cleanse',
@@ -327,7 +323,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.gainsEffect({ effectId: '8CD' }),
       condition: Conditions.targetIsYou(),
       suppressSeconds: 1,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Chain on YOU',
@@ -343,7 +339,7 @@ Options.Triggers.push({
       id: 'E8S Holy Light',
       netRegex: NetRegexes.tether({ id: '0002' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Orb on YOU',
@@ -383,11 +379,11 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: ['シヴァ', '聖竜'], id: ['4D98', '4D79'] }),
       netRegexCn: NetRegexes.startsUsing({ source: ['希瓦', '圣龙'], id: ['4D98', '4D79'] }),
       netRegexKo: NetRegexes.startsUsing({ source: ['시바', '성룡'], id: ['4D98', '4D79'] }),
-      preRun: function(data, matches) {
+      preRun: (data, matches) => {
         data.akhMornTargets = data.akhMornTargets || [];
         data.akhMornTargets.push(matches.target);
       },
-      response: function(data, matches, output) {
+      response: (data, matches, output) => {
         // cactbot-builtin-response
         output.responseOutputStrings = {
           akhMornOnYou: {
@@ -429,7 +425,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: ['希瓦', '圣龙'], id: ['4D98', '4D79'], capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: ['시바', '성룡'], id: ['4D98', '4D79'], capture: false }),
       delaySeconds: 15,
-      run: function(data) {
+      run: (data) => {
         delete data.akhMornTargets;
       },
     },
@@ -441,7 +437,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4D7B' }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D7B' }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D7B' }),
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.me === matches.target)
           return output.mornAfahOnYou();
         if (data.role === 'tank' || data.role === 'healer' || data.CanAddle())
@@ -494,9 +490,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4D77', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D77', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D77', capture: false }),
-      condition: function(data) {
-        return data.options.cactbote8sUptimeKnockbackStrat;
-      },
+      condition: (data) => data.options.cactbote8sUptimeKnockbackStrat,
       // This gives a warning within 1.4 seconds, so you can hit arm's length.
       delaySeconds: 8.6,
       durationSeconds: 1.4,
@@ -521,7 +515,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4D7C', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D7C', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D7C', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.wyrmsLament = data.wyrmsLament || 0;
         data.wyrmsLament++;
       },
@@ -530,7 +524,7 @@ Options.Triggers.push({
       id: 'E8S Wyrmclaw',
       netRegex: NetRegexes.gainsEffect({ effectId: '8D2' }),
       condition: Conditions.targetIsYou(),
-      preRun: function(data, matches) {
+      preRun: (data, matches) => {
         if (data.wyrmsLament === 1) {
           data.wyrmclawNumber = {
             '14': 1,
@@ -545,12 +539,8 @@ Options.Triggers.push({
           }[Math.ceil(matches.duration)];
         }
       },
-      durationSeconds: function(data, matches) {
-        return matches.duration;
-      },
-      alertText: function(data, _, output) {
-        return output.text({ num: data.wyrmclawNumber });
-      },
+      durationSeconds: (_data, matches) => matches.duration,
+      alertText: (data, _matches, output) => output.text({ num: data.wyrmclawNumber }),
       outputStrings: {
         text: {
           en: 'Red #${num}',
@@ -566,7 +556,7 @@ Options.Triggers.push({
       id: 'E8S Wyrmfang',
       netRegex: NetRegexes.gainsEffect({ effectId: '8D3' }),
       condition: Conditions.targetIsYou(),
-      preRun: function(data, matches) {
+      preRun: (data, matches) => {
         if (data.wyrmsLament === 1) {
           data.wyrmfangNumber = {
             '20': 1,
@@ -581,12 +571,8 @@ Options.Triggers.push({
           }[Math.ceil(matches.duration)];
         }
       },
-      durationSeconds: function(data, matches) {
-        return matches.duration;
-      },
-      alertText: function(data, _, output) {
-        return output.text({ num: data.wyrmfangNumber });
-      },
+      durationSeconds: (_data, matches) => matches.duration,
+      alertText: (data, _matches, output) => output.text({ num: data.wyrmfangNumber }),
       outputStrings: {
         text: {
           en: 'Blue #${num}',
@@ -636,7 +622,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4D83', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D83', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D83', capture: false }),
-      response: Responses.getIn('alert'),
+      response: Responses.getIn(),
     },
     {
       id: 'E8S Twin Stillness',
@@ -686,11 +672,9 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'シヴァ', id: '4D7D', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '希瓦', id: '4D7D', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '시바', id: '4D7D', capture: false }),
-      condition: function(data) {
-        return data.CanCleanse();
-      },
+      condition: (data) => data.CanCleanse(),
       suppressSeconds: 1,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Cleanse DPS Only',
@@ -711,7 +695,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D7E', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D7E', capture: false }),
       condition: (data) => data.role === 'tank',
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Tank Stack in Tower',
@@ -732,7 +716,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4D7F', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4D7F', capture: false }),
       condition: (data) => data.role === 'tank',
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Tank Spread in Tower',

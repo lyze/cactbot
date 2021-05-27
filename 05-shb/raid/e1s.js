@@ -2,7 +2,7 @@ Options.Triggers.push({
   zoneId: ZoneId.EdensGateResurrectionSavage,
   timelineFile: 'e1s.txt',
   timeline: [
-    function(data) {
+    (data) => {
       const chance = 0.4;
       const time = '275';
       if (Math.random() >= chance)
@@ -69,7 +69,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D70', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D70', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D70', source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         if (!data.viceCount) {
           data.viceCount = 1;
           data.vice = 'dps';
@@ -84,7 +84,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.gainsEffect({ target: 'エデン・プライム', effectId: '7B6', capture: false }),
       netRegexCn: NetRegexes.gainsEffect({ target: '至尊伊甸', effectId: '7B6', capture: false }),
       netRegexKo: NetRegexes.gainsEffect({ target: '에덴 프라임', effectId: '7B6', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.paradise = true;
       },
     },
@@ -96,7 +96,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.losesEffect({ target: 'エデン・プライム', effectId: '7B6', capture: false }),
       netRegexCn: NetRegexes.losesEffect({ target: '至尊伊甸', effectId: '7B6', capture: false }),
       netRegexKo: NetRegexes.losesEffect({ target: '에덴 프라임', effectId: '7B6', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.paradise = false;
       },
     },
@@ -141,9 +141,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D88', source: 'エデン・プライム' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D88', source: '至尊伊甸' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D88', source: '에덴 프라임' }),
-      condition: function(data, matches) {
-        return matches.target === data.me || data.role === 'tank' || data.role === 'healer';
-      },
+      condition: (data, matches) => matches.target === data.me || data.role === 'tank' || data.role === 'healer',
       response: Responses.tankBusterSwap(),
     },
     {
@@ -164,7 +162,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '44F4', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '44F4', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '44F4', source: '에덴 프라임', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Cross Spread',
@@ -184,7 +182,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '44F8', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '44F8', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '44F8', source: '에덴 프라임', capture: false }),
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         if (data.role === 'tank')
           return output.getInSpread();
         return output.inStackBehind();
@@ -222,7 +220,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: ['44EF', '3D7A', '44EE', '3D78', '44F0', '3D7D'], source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: ['44EF', '3D7A', '44EE', '3D78', '44F0', '3D7D'], source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: ['44EF', '3D7A', '44EE', '3D78', '44F0', '3D7D'], source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         // Note: this happens *after* the marks, so is setting up vice for the next marks.
         data.viceCount++;
         const viceMap = {
@@ -251,7 +249,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D7A', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D7A', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D7A', source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.vice = 'dps';
       },
     },
@@ -263,7 +261,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '44EE', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '44EE', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '44EE', source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.vice = 'healer';
       },
     },
@@ -275,7 +273,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D78', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D78', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D78', source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.vice = 'dps';
       },
     },
@@ -287,7 +285,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '44F0', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '44F0', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '44F0', source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.vice = 'tank';
       },
     },
@@ -299,17 +297,15 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D7D', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D7D', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D7D', source: '에덴 프라임', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.vice = 'tank';
       },
     },
     {
       id: 'E1S Vice and Virtue DPS 1',
       netRegex: NetRegexes.headMarker({ id: '00AE' }),
-      condition: function(data, matches) {
-        return !data.paradise && data.vice === 'dps' && data.me === matches.target;
-      },
-      alertText: (data, _, output) => output.text(),
+      condition: (data, matches) => !data.paradise && data.vice === 'dps' && data.me === matches.target,
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Puddle Spread',
@@ -329,7 +325,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D7A', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D7A', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D7A', source: '에덴 프라임', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stack With Partner',
@@ -344,10 +340,8 @@ Options.Triggers.push({
     {
       id: 'E1S Vice and Virtue Tank Mark',
       netRegex: NetRegexes.headMarker({ id: '00AE' }),
-      condition: function(data, matches) {
-        return data.vice === 'tank' && data.me === matches.target;
-      },
-      infoText: (data, _, output) => output.text(),
+      condition: (data, matches) => data.vice === 'tank' && data.me === matches.target,
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Tank Laser on YOU',
@@ -367,10 +361,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D78', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D78', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D78', source: '에덴 프라임', capture: false }),
-      condition: function(data) {
-        return data.role !== 'tank';
-      },
-      infoText: (data, _, output) => output.text(),
+      condition: (data) => data.role !== 'tank',
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stack in front of tank',
@@ -386,7 +378,7 @@ Options.Triggers.push({
       id: 'E1S Vice and Virtue Healer Mark YOU',
       netRegex: NetRegexes.gainsEffect({ effectId: '840' }),
       condition: Conditions.targetIsYou(),
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         if (data.paradise)
           return output.passPreyToDps();
         return output.passPreyToTank();
@@ -413,7 +405,7 @@ Options.Triggers.push({
     {
       id: 'E1S Vice and Virtue Healer Mark Not You',
       netRegex: NetRegexes.gainsEffect({ effectId: '840', capture: false }),
-      condition: function(data) {
+      condition: (data) => {
         if (data.role === 'dps')
           return data.paradise;
         if (data.role === 'tank')
@@ -421,7 +413,7 @@ Options.Triggers.push({
         return false;
       },
       suppressSeconds: 20,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Take prey from healer',
@@ -441,9 +433,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D8D', source: 'エデン・ガーデナー' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D8D', source: '伊甸守护者' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D8D', source: '에덴의 수호자' }),
-      condition: function(data) {
-        return data.CanSilence();
-      },
+      condition: (data) => data.CanSilence(),
       suppressSeconds: 1,
       response: Responses.interrupt(),
     },
@@ -465,7 +455,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D80', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D80', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D80', source: '에덴 프라임', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get Outside Your Orb',
@@ -485,7 +475,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3D82', source: 'エデン・プライム', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3D82', source: '至尊伊甸', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3D82', source: '에덴 프라임', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Bait Orb Lasers Outside',

@@ -28,7 +28,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ id: ['1C7F', '1C90'], source: '虚空死亡凝视', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: ['1C7F', '1C90'], source: '공허의 저승파수꾼', capture: false }),
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Out of death circle',
@@ -51,10 +51,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: ['1C84', '1C85'], source: 'デスゲイズ・ホロー', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: ['1C84', '1C85'], source: '虚空死亡凝视', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: ['1C84', '1C85'], source: '공허의 저승파수꾼', capture: false }),
-      condition: function(data) {
-        return data.CanCleanse();
-      },
-      alertText: (data, _, output) => output.text(),
+      condition: (data) => data.CanCleanse(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Cleanse Doom soon!',
@@ -83,7 +81,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Void Sprite',
       netRegex: NetRegexes.addedCombatantFull({ npcNameId: '5508', capture: false }),
       suppressSeconds: 10,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill sprites',
@@ -99,7 +97,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Aero 2',
       netRegex: NetRegexes.headMarker({ id: '0046' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Drop Tornado outside',
@@ -137,7 +135,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ id: ['1C82', '1C83'], source: '虚空死亡凝视', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: ['1C82', '1C83'], source: '공허의 저승파수꾼', capture: false }),
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid death squares',
@@ -155,7 +153,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker({ id: '0017' }),
       condition: Conditions.targetIsYou(),
       suppressSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Drop scythe outside',
@@ -186,7 +184,7 @@ Options.Triggers.push({
       // To avoid this, we store the IDs of Atomos for later comparison.
       id: 'Dun Scaith Atomos Setup',
       netRegex: NetRegexes.addedCombatantFull({ npcNameId: ['5510', '5511'] }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.cursing = data.cursing || [];
         data.wailing = data.wailing || [];
         matches.npcNameId === '5510' ? data.wailing.push(matches.id) : data.cursing.push(matches.id);
@@ -198,7 +196,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Atomos Compile',
       netRegex: NetRegexes.startsUsing({ id: ['1C9F', '1CA0'] }),
       delaySeconds: .5,
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.sphere = data.sphere || [];
         data.donut = data.donut || [];
         const target = data.wailing.includes(matches.targetId) ? 'wailing' : 'cursing';
@@ -213,7 +211,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.startsUsing({ id: ['1C9F', '1CA0'], capture: false }),
       delaySeconds: 1,
       suppressSeconds: 5,
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         if (data.donut.length === 2) {
           return output.goToAnyUntethered();
         } else if (data.sphere.length === 2) {
@@ -286,7 +284,7 @@ Options.Triggers.push({
     {
       id: 'Dun Scaith Atomos Cleanup',
       netRegex: NetRegexes.ability({ id: ['1CA1', '1CA2'], capture: false }),
-      run: function(data) {
+      run: (data) => {
         for (const el of ['cursing', 'wailing', 'sphere', 'donut'])
           delete data[el];
       },
@@ -299,7 +297,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '1CAA', source: 'フェルディア・ホロー', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '1CAA', source: '虚空弗迪亚', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '1CAA', source: '공허의 페르디아', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid puddles',
@@ -316,7 +314,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Debilitator Fire',
       netRegex: NetRegexes.gainsEffect({ effectId: '471', capture: false }),
       suppressSeconds: 10,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Change puddles to water',
@@ -333,7 +331,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Debilitator Water',
       netRegex: NetRegexes.gainsEffect({ effectId: '485', capture: false }),
       suppressSeconds: 10,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Change puddles to fire',
@@ -362,7 +360,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Prey Markers',
       netRegex: NetRegexes.gainsEffect({ effectId: '232' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Prey--Avoid party and keep moving',
@@ -380,7 +378,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Bit Circles',
       netRegex: NetRegexes.addedCombatantFull({ npcNameId: '3782', capture: false }),
       suppressSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid Bit AoEs',
@@ -396,7 +394,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Aether Collectors',
       netRegex: NetRegexes.addedCombatantFull({ npcNameId: '3781', capture: false }),
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill collectors',
@@ -419,7 +417,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ id: '1D1[EF]', source: '斯卡哈', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '1D1[EF]', source: '스카하크', capture: false }),
       suppressSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid arm slaps',
@@ -450,7 +448,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '1D2F', source: 'スカアハ', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '1D2F', source: '斯卡哈', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '1D2F', source: '스카하크', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid line AoEs',
@@ -490,7 +488,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Shadow Limb Spawn',
       netRegex: NetRegexes.addedCombatantFull({ npcNameId: '5516', capture: false }),
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill the hands',
@@ -510,7 +508,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '1CD1', source: 'コンラ', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '1CD1', source: '康拉', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '1CD1', source: '콘라', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid AoE, Kill Connla',
@@ -528,7 +526,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker({ id: '005C' }),
       condition: Conditions.targetIsYou(),
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Take orb outside',
@@ -580,11 +578,9 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.gainsEffect({ target: 'ディアボロス', effectId: '1AA', capture: false }),
       netRegexCn: NetRegexes.gainsEffect({ target: '迪亚波罗斯', effectId: '1AA', capture: false }),
       netRegexKo: NetRegexes.gainsEffect({ target: '디아볼로스', effectId: '1AA', capture: false }),
-      condition: function(data) {
-        return data.role === 'tank' || data.role === 'healer';
-      },
+      condition: (data) => data.role === 'tank' || data.role === 'healer',
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Boss hitting hard--Shield/Mitigate',
@@ -604,9 +600,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: ['1C10', '1C11'], source: 'ディアボロス', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: ['1C10', '1C11'], source: '迪亚波罗斯', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: ['1C10', '1C11'], source: '디아볼로스', capture: false }),
-      condition: function(data) {
-        return data.role === 'healer';
-      },
+      condition: (data) => data.role === 'healer',
       suppressSeconds: 5,
       response: Responses.aoe(),
     },
@@ -614,7 +608,7 @@ Options.Triggers.push({
       id: 'Dun Scaith Deathgates',
       netRegex: NetRegexes.addedCombatantFull({ npcNameId: '5523', capture: false }),
       suppressSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill the deathgates',
@@ -639,7 +633,7 @@ Options.Triggers.push({
     {
       id: 'Dun Scaith Hollow Night',
       netRegex: NetRegexes.headMarker({ id: '005B' }),
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (matches.target === data.me)
           return output.gazeStackOnYou();
         return output.stackOnAndLookAway({ player: data.ShortName(matches.target) });
@@ -671,9 +665,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: ['1C22', '1C23'], source: 'ディアボロス・ホロー', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: ['1C22', '1C23'], source: '虚空迪亚波罗斯', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: ['1C22', '1C23'], source: '공허의 디아볼로스', capture: false }),
-      condition: function(data) {
-        return data.role === 'healer';
-      },
+      condition: (data) => data.role === 'healer',
       suppressSeconds: 5,
       response: Responses.bigAoe(),
     },

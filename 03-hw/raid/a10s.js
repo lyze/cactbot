@@ -17,22 +17,8 @@ const chargeOutputStrings = {
     cn: '远离',
     ko: '밖으로',
   },
-  spread: {
-    en: 'Spread',
-    de: 'Verteilen',
-    fr: 'Dispersez-vous',
-    ja: '散開',
-    cn: '分散',
-    ko: '산개',
-  },
-  stackMarker: {
-    en: 'Stack',
-    de: 'Sammeln',
-    fr: 'Packez-vous',
-    ja: '頭割り',
-    cn: '分摊',
-    ko: '쉐어뎀',
-  },
+  spread: Outputs.spread,
+  stackMarker: Outputs.stackMarker,
 };
 Options.Triggers.push({
   zoneId: ZoneId.AlexanderTheBreathOfTheCreatorSavage,
@@ -51,7 +37,7 @@ Options.Triggers.push({
       regex: /Gobbie Adds/,
       beforeSeconds: 0,
       suppressSeconds: 1,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Hit Adds With Weight Trap',
@@ -73,7 +59,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1AB2', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1AB2', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1AB2', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Floor Spikes',
@@ -93,7 +79,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1AB1', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1AB1', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1AB1', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Frost Lasers',
@@ -113,7 +99,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1AB0', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1AB0', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1AB0', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Ceiling Weight',
@@ -134,7 +120,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1AB[89AB]' }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1AB[89AB]' }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1AB[89AB]' }),
-      preRun: function(data, matches) {
+      preRun: (data, matches) => {
         data.charges = data.charges || [];
         data.charges.push({
           '1AB8': 'getIn',
@@ -143,7 +129,7 @@ Options.Triggers.push({
           '1ABB': 'stackMarker',
         }[matches.id]);
       },
-      response: function(data, _, output) {
+      response: (data, _matches, output) => {
         // cactbot-builtin-response
         output.responseOutputStrings = chargeOutputStrings;
         // Call the first one out with alert, the other two with info.
@@ -160,7 +146,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1A9[789]', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1A9[789]', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1A9[789]', capture: false }),
-      run: function(data) {
+      run: (data) => {
         if (data.charges)
           data.charges.shift();
       },
@@ -174,7 +160,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1A9[ABCE]', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1A9[ABCE]', capture: false }),
       suppressSeconds: 0.5,
-      response: function(data, _, output) {
+      response: (data, _matches, output) => {
         // cactbot-builtin-response
         output.responseOutputStrings = chargeOutputStrings;
         if (!data.charges || !data.charges.length)
@@ -191,7 +177,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1A9[789]', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1A9[789]', capture: false }),
       delaySeconds: 10,
-      run: function(data) {
+      run: (data) => {
         // Cleanup just in case.
         delete data.charges;
       },
@@ -215,12 +201,12 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.tether({ source: '傭兵のレイムプリクス', id: '0039' }),
       netRegexCn: NetRegexes.tether({ source: '佣兵雷姆普里克斯', id: '0039' }),
       netRegexKo: NetRegexes.tether({ source: '용병 레임브릭스', id: '0039' }),
-      alarmText: function(data, matches, output) {
+      alarmText: (data, matches, output) => {
         if (data.me !== matches.target)
           return;
         return output.tankSwapGetAway();
       },
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.me === matches.target)
           return;
         if (data.role === 'tank')
@@ -229,14 +215,7 @@ Options.Triggers.push({
           return output.shieldPlayer({ player: data.ShortName(matches.target) });
       },
       outputStrings: {
-        tankSwap: {
-          en: 'Tank Swap!',
-          de: 'Tankwechsel!',
-          fr: 'Tank swap !',
-          ja: 'タンクスイッチ!',
-          cn: '换T！',
-          ko: '탱 교대',
-        },
+        tankSwap: Outputs.tankSwap,
         shieldPlayer: {
           en: 'Shield ${player}',
           de: 'Schild ${player}',
@@ -273,7 +252,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1AA9', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1AA9', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1AA9', capture: false }),
-      run: function(data) {
+      run: (data) => {
         // This comes out 0.1s before every '0029' prey marker.
         data.seenBrighteyes = true;
       },
@@ -288,7 +267,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1AA9', capture: false }),
       delaySeconds: 20,
       suppressSeconds: 20,
-      run: function(data) {
+      run: (data) => {
         delete data.seenBrighteyes;
       },
     },
@@ -296,7 +275,7 @@ Options.Triggers.push({
       id: 'A10S Brighteyes Prey Marker',
       netRegex: NetRegexes.headMarker({ id: '0029' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Prey on YOU',
@@ -311,12 +290,12 @@ Options.Triggers.push({
     {
       id: 'A10S Brighteyes Prey Marker Pass',
       netRegex: NetRegexes.headMarker({ id: '0029' }),
-      condition: function(data, matches) {
+      condition: (data, matches) => {
         // Only need to pass on the first one.
         return data.me === matches.target && !data.seenBrighteyes;
       },
       delaySeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Pass Prey',
@@ -336,7 +315,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: '傭兵のレイムプリクス', id: '1A92', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '佣兵雷姆普里克斯', id: '1A92', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '용병 레임브릭스', id: '1A92', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Hit Floor Trap',
@@ -366,7 +345,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: '傭兵のレイムプリクス', id: '1A8F', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '佣兵雷姆普里克斯', id: '1A8F', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '용병 레임브릭스', id: '1A8F', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Hit Boss With Ice',

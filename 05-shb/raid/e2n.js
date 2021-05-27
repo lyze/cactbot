@@ -6,7 +6,7 @@ Options.Triggers.push({
       id: 'E2N Punishing Ray',
       regex: /Punishing Ray/,
       beforeSeconds: 9,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get Puddles',
@@ -28,9 +28,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E4D', source: 'ヴォイドウォーカー' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E4D', source: '虚无行者' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E4D', source: '보이드워커' }),
-      condition: function(data) {
-        return data.role === 'tank';
-      },
+      condition: (data) => data.role === 'tank',
       response: Responses.tankBuster(),
     },
     {
@@ -41,20 +39,11 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E4D', source: 'ヴォイドウォーカー', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E4D', source: '虚无行者', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E4D', source: '보이드워커', capture: false }),
-      condition: function(data) {
-        return data.role === 'healer';
-      },
+      condition: (data) => data.role === 'healer',
       suppressSeconds: 1,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
-        text: {
-          en: 'Tank Busters',
-          de: 'Tank buster',
-          fr: 'Tank buster',
-          ja: 'タンクバスター',
-          cn: '死刑',
-          ko: '탱버',
-        },
+        text: Outputs.tankBusters,
       },
     },
     {
@@ -96,7 +85,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E42', source: 'ヴォイドウォーカー', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E42', source: '虚无行者', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E42', source: '보이드워커', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.fireCount = data.fireCount || 0;
         data.fireCount++;
       },
@@ -120,7 +109,7 @@ Options.Triggers.push({
     {
       id: 'E2N Dark Fire Collect',
       netRegex: NetRegexes.headMarker({ id: '00B5' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.spell = data.spell || {};
         data.spell[matches.target] = 'fire';
       },
@@ -129,7 +118,7 @@ Options.Triggers.push({
       id: 'E2N Dark Fire Waiting',
       netRegex: NetRegexes.headMarker({ id: '00B5' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Delayed Fire',
@@ -144,10 +133,8 @@ Options.Triggers.push({
     {
       id: 'E2N Countdown Marker Fire',
       netRegex: NetRegexes.headMarker({ id: '00B8' }),
-      condition: function(data, matches) {
-        return data.me === matches.target && data.spell[data.me] === 'fire';
-      },
-      alertText: function(data, _, output) {
+      condition: (data, matches) => data.me === matches.target && data.spell[data.me] === 'fire',
+      alertText: (data, _matches, output) => {
         if (data.fireCount === 3)
           return output.spreadDontStack();
         return output.spread();
@@ -161,20 +148,13 @@ Options.Triggers.push({
           cn: '分散',
           ko: '산개 (쉐어 맞으면 안됨)',
         },
-        spread: {
-          en: 'Spread',
-          de: 'Verteilen',
-          fr: 'Dispersez-vous',
-          ja: '散開',
-          cn: '分散',
-          ko: '산개',
-        },
+        spread: Outputs.spread,
       },
     },
     {
       id: 'E2N Unholy Darkness Collect',
       netRegex: NetRegexes.headMarker({ id: '00B4' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.spell = data.spell || {};
         data.spell[matches.target] = 'stack';
       },
@@ -183,7 +163,7 @@ Options.Triggers.push({
       id: 'E2N Unholy Darkness Waiting',
       netRegex: NetRegexes.headMarker({ id: '00B4' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Delayed Stack',
@@ -198,7 +178,7 @@ Options.Triggers.push({
     {
       id: 'E2N Countdown Marker Unholy Darkness',
       netRegex: NetRegexes.headMarker({ id: '00B8' }),
-      condition: function(data, matches) {
+      condition: (data, matches) => {
         // The third fire coincides with stack.
         // These people should avoid.
         if (data.spell[data.me] === 'fire' && data.fireCount === 3)
@@ -210,7 +190,7 @@ Options.Triggers.push({
     {
       id: 'E2N Shadoweye Collect',
       netRegex: NetRegexes.headMarker({ id: '00B7' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.spell = data.spell || {};
         data.spell[matches.target] = 'eye';
       },
@@ -219,7 +199,7 @@ Options.Triggers.push({
       id: 'E2N Shadoweye Waiting',
       netRegex: NetRegexes.headMarker({ id: '00B7' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Delayed Shadoweye',
@@ -234,20 +214,16 @@ Options.Triggers.push({
     {
       id: 'E2N Countdown Marker Shadoweye',
       netRegex: NetRegexes.headMarker({ id: '00B8' }),
-      condition: function(data, matches) {
-        return data.spell[matches.target] === 'eye';
-      },
+      condition: (data, matches) => data.spell[matches.target] === 'eye',
       delaySeconds: 2,
       response: Responses.lookAwayFromTarget('alarm'),
     },
     {
       id: 'E2N Countdown Marker Shadoweye You',
       netRegex: NetRegexes.headMarker({ id: '00B8' }),
-      condition: function(data, matches) {
-        return data.spell[matches.target] === 'eye';
-      },
+      condition: (data, matches) => data.spell[matches.target] === 'eye',
       delaySeconds: 2,
-      infoText: function(data, matches, output) {
+      infoText: (data, matches, output) => {
         if (data.me === matches.target)
           return output.text();
       },
@@ -266,7 +242,7 @@ Options.Triggers.push({
       id: 'E2N Countdown Marker Cleanup',
       netRegex: NetRegexes.headMarker({ id: '00B8' }),
       delaySeconds: 10,
-      run: function(data, matches) {
+      run: (data, matches) => {
         delete data.spell[matches.target];
       },
     },

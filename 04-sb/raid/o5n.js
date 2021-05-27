@@ -12,7 +12,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.removingCombatant({ name: '魔列車', capture: false }),
       netRegexCn: NetRegexes.removingCombatant({ name: '魔列车', capture: false }),
       netRegexKo: NetRegexes.removingCombatant({ name: '마열차', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.StopCombat();
       },
     },
@@ -50,7 +50,7 @@ Options.Triggers.push({
       id: 'O5N Diabolic Light',
       netRegex: NetRegexes.headMarker({ id: '0001' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Light',
@@ -66,7 +66,7 @@ Options.Triggers.push({
       id: 'O5N Diabolic Wind',
       netRegex: NetRegexes.headMarker({ id: '0046' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Wind',

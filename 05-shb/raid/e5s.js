@@ -6,7 +6,7 @@ Options.Triggers.push({
       id: 'E5S Stepped Leader Next',
       regex: /^Stepped Leader$/,
       beforeSeconds: 15,
-      run: function(data) {
+      run: (data) => {
         data.steppedLeaderNext = true;
       },
     },
@@ -16,7 +16,7 @@ Options.Triggers.push({
       id: 'E5S Surge Protection Gain',
       netRegex: NetRegexes.gainsEffect({ effectId: '8B4' }),
       condition: Conditions.targetIsYou(),
-      run: function(data) {
+      run: (data) => {
         data.surgeProtection = true;
       },
     },
@@ -24,7 +24,7 @@ Options.Triggers.push({
       id: 'E5S Surge Protection Loss',
       netRegex: NetRegexes.losesEffect({ effectId: '8B4' }),
       condition: Conditions.targetIsYou(),
-      run: function(data) {
+      run: (data) => {
         data.surgeProtection = false;
       },
     },
@@ -36,12 +36,10 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ id: '4BA5', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.ability({ id: '4BA5', source: '라무', capture: false }),
       netRegexCn: NetRegexes.ability({ id: '4BA5', source: '拉姆', capture: false }),
-      condition: function(data) {
-        return !data.seenFirstSpear;
-      },
+      condition: (data) => !data.seenFirstSpear,
       delaySeconds: 5,
-      infoText: (data, _, output) => output.text(),
-      run: function(data) {
+      infoText: (_data, _matches, output) => output.text(),
+      run: (data) => {
         data.seenFirstSpear = true;
       },
       outputStrings: {
@@ -63,14 +61,14 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BAC', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BAC', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BAC', source: '拉姆', capture: false }),
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         if (data.seenFirstAdd)
           return output.lookForAdds();
         if (data.furysBoltActive)
           return output.bigKnockback();
         return output.shortKnockback();
       },
-      run: function(data) {
+      run: (data) => {
         data.seenFirstAdd = true;
       },
       outputStrings: {
@@ -108,7 +106,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BAA', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BAA', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BAA', source: '拉姆', capture: false }),
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         // Fury's Bolt + Stepped Leader doesn't require an orb
         if (!data.surgeProtection && !data.steppedLeaderNext)
           return output.text();
@@ -127,14 +125,14 @@ Options.Triggers.push({
     {
       id: 'E5S Fury\'s Bolt Gain',
       netRegex: NetRegexes.gainsEffect({ effectId: '8B7', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.furysBoltActive = true;
       },
     },
     {
       id: 'E5S Fury\'s Bolt Lose',
       netRegex: NetRegexes.losesEffect({ effectId: '8B7', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.furysBoltActive = false;
       },
     },
@@ -146,14 +144,12 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BAB', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BAB', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BAB', source: '拉姆', capture: false }),
-      condition: function(data) {
-        return !data.furysFourteenCounter || data.furysFourteenCounter < 2;
-      },
-      alertText: function(data, _, output) {
+      condition: (data) => !data.furysFourteenCounter || data.furysFourteenCounter < 2,
+      alertText: (data, _matches, output) => {
         if (!data.surgeProtection)
           return output.text();
       },
-      run: function(data) {
+      run: (data) => {
         data.furysFourteenCounter = data.furysFourteenCounter || 0;
         data.furysFourteenCounter++;
       },
@@ -187,7 +183,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BC6', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BC6', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BC6', source: '拉姆', capture: false }),
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         // Fury's Bolt + Stepped Leader is a donut AoE instead
         if (!data.furysBoltActive)
           return output.readySpread();
@@ -220,9 +216,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BC6', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BC6', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BC6', source: '拉姆', capture: false }),
-      condition: function(data) {
-        return !data.furysBoltActive;
-      },
+      condition: (data) => !data.furysBoltActive,
       delaySeconds: 3,
       response: Responses.moveAway('alarm'),
     },
@@ -234,7 +228,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ id: '4BC6', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.ability({ id: '4BC6', source: '라무', capture: false }),
       netRegexCn: NetRegexes.ability({ id: '4BC6', source: '拉姆', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.steppedLeaderNext = false;
       },
     },
@@ -257,7 +251,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BB8', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BB8', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BB8', source: '拉姆', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Position for Stormcloud',
@@ -274,7 +268,7 @@ Options.Triggers.push({
       id: 'E5S Stormcloud Cleanse',
       netRegex: NetRegexes.headMarker({ id: '00D2' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Cleanse In Cloud',
@@ -290,7 +284,7 @@ Options.Triggers.push({
       id: 'E5S Stormcloud Drop',
       netRegex: NetRegexes.headMarker({ id: '006E' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Drop Cloud Away',
@@ -310,7 +304,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BAD', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BAD', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BAD', source: '拉姆', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Be in your position',
@@ -330,7 +324,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4BC4', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4BC4', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4BC4', source: '拉姆', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Ready for Chain',

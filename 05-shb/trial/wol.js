@@ -6,10 +6,8 @@ Options.Triggers.push({
       id: 'WOL Ultimate Crossover',
       regex: /Ultimate Crossover/,
       beforeSeconds: 8,
-      condition: function(data) {
-        return data.role === 'tank';
-      },
-      alarmText: (data, _, output) => output.text(),
+      condition: (data) => data.role === 'tank',
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Limit break now!',
@@ -26,7 +24,7 @@ Options.Triggers.push({
       regex: /Meteor Impact 1/,
       beforeSeconds: 10,
       durationSeconds: 8,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get Towers',
@@ -48,11 +46,9 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ウォーリア・オブ・ライト', id: '4F27', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '光之战士', id: '4F27', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '빛의 전사', id: '4F27', capture: false }),
-      condition: function(data) {
-        return data.role === 'healer';
-      },
+      condition: (data) => data.role === 'healer',
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Full Heal Everyone',
@@ -72,7 +68,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '4F11', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '4F11', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '4F11', capture: false }),
-      response: Responses.getUnder('info'),
+      response: Responses.getUnder(),
     },
     {
       id: 'WOL Coruscant Saber Out',
@@ -113,7 +109,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '4F13', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '4F13', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '4F13', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.imbued = 'blizzard';
       },
     },
@@ -125,7 +121,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '4F12', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '4F12', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '4F12', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.imbued = 'fire';
       },
     },
@@ -137,7 +133,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '4F4B', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '4F4B', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '4F4B', capture: false }),
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         if (data.imbued === 'blizzard')
           return output.outMove();
         else if (data.imbued === 'fire')
@@ -179,7 +175,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '4F4C', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '4F4C', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '4F4C', capture: false }),
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         if (data.imbued === 'blizzard')
           return output.underMove();
         else if (data.imbued === 'fire')
@@ -221,7 +217,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '4F42', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '4F42', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '4F42', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Out of Triangle',
@@ -245,7 +241,7 @@ Options.Triggers.push({
       // This applies to both phases.  We could say something like "go side without wyrm" and
       // "go to corner without wyrm", but "avoid wyrm dash" covers both.  Hopefully it's obvious
       // not to stand in the giant black circle.
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid Wyrm Dash',
@@ -283,8 +279,8 @@ Options.Triggers.push({
       id: 'WOL Deluge of Death Marker',
       netRegex: NetRegexes.headMarker({ id: '0057' }),
       condition: Conditions.targetIsYou(),
-      alarmText: (data, _, output) => output.text(),
-      run: function(data, matches) {
+      alarmText: (_data, _matches, output) => output.text(),
+      run: (data, matches) => {
         data.deluge = matches.target;
       },
       outputStrings: {
@@ -300,9 +296,9 @@ Options.Triggers.push({
     },
     {
       id: 'WOL Deluge of Death Cleanup',
-      netRegex: NetRegexes.headMarker({ id: '0057' }),
+      netRegex: NetRegexes.headMarker({ id: '0057', capture: false }),
       delaySeconds: 10,
-      run: function(data, matches) {
+      run: (data) => {
         // Clean this up so it doesn't apply during Katon San.
         delete data.deluge;
       },
@@ -330,7 +326,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ウォーリア・オブ・ライト', id: '515D', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '光之战士', id: '515D', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '빛의 전사', id: '515D', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stack Groups',
@@ -346,7 +342,7 @@ Options.Triggers.push({
       id: 'WOL Radiant Meteor',
       netRegex: NetRegexes.headMarker({ id: '00E9' }),
       condition: Conditions.targetIsYou(),
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Go to Corner',
@@ -378,7 +374,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.tether({ source: '幻光召唤兽', id: '0011' }),
       netRegexKo: NetRegexes.tether({ source: '환상빛의 소환수', id: '0011' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Point tether outside',

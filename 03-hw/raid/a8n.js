@@ -8,19 +8,19 @@ Options.Triggers.push({
       id: 'A8N Hydrothermal Missile',
       regex: /Hydrothermal Missile/,
       beforeSeconds: 3,
-      response: Responses.tankCleave('info'),
+      response: Responses.tankCleave(),
     },
     {
       id: 'A8N Flarethrower',
       regex: /Flarethrower/,
       beforeSeconds: 3,
-      response: Responses.tankCleave('info'),
+      response: Responses.tankCleave(),
     },
     {
       id: 'A8N Super Jump Soon',
       regex: /Super Jump/,
       beforeSeconds: 8,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Bait Super Jump',
@@ -43,7 +43,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '突击者', id: '1732', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '맹습자', id: '1732', capture: false }),
       // Insert sound effect from Arthars here.
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Megabeamu~',
@@ -63,7 +63,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ブルートジャスティス', id: '174F', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '残暴正义号', id: '174F', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '포악한 심판자', id: '174F', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Megabeamu~!',
@@ -83,10 +83,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'オンスローター', id: '1632', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '突击者', id: '1632', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '맹습자', id: '1632', capture: false }),
-      condition: function(data) {
-        return data.role === 'dps' || data.job === 'BLU';
-      },
-      infoText: (data, _, output) => output.text(),
+      condition: (data) => data.role === 'dps' || data.job === 'BLU',
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kill Regulators',
@@ -116,7 +114,7 @@ Options.Triggers.push({
       condition: Conditions.targetIsYou(),
       durationSeconds: 10,
       suppressSeconds: 10,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get High',
@@ -134,7 +132,7 @@ Options.Triggers.push({
       condition: Conditions.targetIsYou(),
       durationSeconds: 10,
       suppressSeconds: 10,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get Down',
@@ -159,7 +157,7 @@ Options.Triggers.push({
     {
       id: 'A8N Enumeration',
       netRegex: NetRegexes.headMarker({ id: ['0040', '0041', '0042'] }),
-      infoText: function(data, matches, output) {
+      infoText: (data, matches, output) => {
         // 0040 = 2, 0041 = 3, 0042 = 4
         const count = 2 + parseInt(matches.id, 16) - parseInt('0040', 16);
         return output.text({ player: data.ShortName(matches.target), count: count });
@@ -197,7 +195,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ブルートジャスティス', id: '174C' }),
       netRegexCn: NetRegexes.ability({ source: '残暴正义号', id: '174C' }),
       netRegexKo: NetRegexes.ability({ source: '포악한 심판자', id: '174C' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.bruteTank = matches.target;
       },
     },
@@ -217,7 +215,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '残暴正义号', id: ['1750', '1756'] }),
       netRegexKo: NetRegexes.ability({ source: '포악한 심판자', id: ['1750', '1756'] }),
       suppressSeconds: 5,
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.bruteTankOut = matches.id === '1756';
       },
     },
@@ -231,7 +229,7 @@ Options.Triggers.push({
       id: 'A8N Long Needle Active Tank',
       netRegex: NetRegexes.headMarker({ id: '003E', capture: false }),
       condition: (data) => data.me === data.bruteTank && data.bruteTankOut,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Don\'t Stack! (tank cleave)',
@@ -272,12 +270,12 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ブルートジャスティス', id: '1750' }),
       netRegexCn: NetRegexes.startsUsing({ source: '残暴正义号', id: '1750' }),
       netRegexKo: NetRegexes.startsUsing({ source: '포악한 심판자', id: '1750' }),
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.me !== matches.target)
           return;
         return output.superJumpOnYou();
       },
-      infoText: function(data, matches, output) {
+      infoText: (data, matches, output) => {
         if (data.me === matches.target)
           return;
         return output.superJumpOn({ player: data.ShortName(matches.target) });
@@ -305,7 +303,7 @@ Options.Triggers.push({
       id: 'A8N Mirage Marker',
       netRegex: NetRegexes.headMarker({ id: '0008' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Mirage on YOU',
@@ -321,7 +319,7 @@ Options.Triggers.push({
       id: 'A8N Ice Missile Marker',
       netRegex: NetRegexes.headMarker({ id: '0043' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Ice Missile on YOU',
@@ -342,7 +340,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '爆破者幻象', id: '1749', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '폭파자의 환영', id: '1749', capture: false }),
       suppressSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid Mirage Dashes',

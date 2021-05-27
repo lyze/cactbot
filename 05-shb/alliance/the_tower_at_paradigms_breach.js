@@ -50,8 +50,8 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ id: '5EA7', source: 'Jack', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '5EA7', source: 'ジャック', capture: false }),
       durationSeconds: 5,
-      alertText: (data, _, output) => output.text(),
-      tts: (data, _, output) => output.ttsText(),
+      alertText: (_data, _matches, output) => output.text(),
+      tts: (_data, _matches, output) => output.ttsText(),
       outputStrings: {
         text: {
           en: 'Go E/W Sides',
@@ -79,8 +79,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '5EA7', source: '複製サレタジャック', capture: false }),
       delaySeconds: 2.1,
       durationSeconds: 5,
-      alertText: (data, _, output) => output.text(),
-      tts: (data, _, output) => output.ttsText(),
+      alertText: (_data, _matches, output) => output.text(),
+      tts: (_data, _matches, output) => output.ttsText(),
       outputStrings: {
         text: {
           en: 'Go N/S Sides',
@@ -105,7 +105,7 @@ Options.Triggers.push({
       id: 'Paradigm Knave Magic Artillery Beta You',
       netRegex: NetRegexes.headMarker({ id: '00DA' }),
       condition: Conditions.targetIsYou(),
-      response: Responses.tankBuster('alert'),
+      response: Responses.tankBuster(),
     },
     {
       id: 'Paradigm Knave Magic Artillery Beta Collect',
@@ -120,7 +120,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker({ id: '00DA', capture: false }),
       delaySeconds: 0.5,
       suppressSeconds: 5,
-      infoText: (data, _, output) => {
+      infoText: (data, _matches, output) => {
         if (!data.busterTargets)
           return;
         if (data.busterTargets.includes(data.me))
@@ -131,14 +131,7 @@ Options.Triggers.push({
       },
       run: (data) => delete data.busterTargets,
       outputStrings: {
-        tankBuster: {
-          en: 'Tank Buster',
-          de: 'Tank buster',
-          fr: 'Tank buster',
-          ja: 'タンクバスター',
-          cn: '坦克死刑',
-          ko: '탱버',
-        },
+        tankBuster: Outputs.tankBuster,
         avoidTankBuster: {
           en: 'Avoid tank buster',
           de: 'Tank buster ausweichen',
@@ -161,9 +154,9 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.startsUsing({ id: '5EB1', source: 'Herzbube' }),
       netRegexFr: NetRegexes.startsUsing({ id: '5EB1', source: 'Jack' }),
       netRegexJa: NetRegexes.startsUsing({ id: '5EB1', source: 'ジャック' }),
-      delaySeconds: (data, matches) => matches.duration - 6,
+      delaySeconds: (_data, matches) => matches.duration - 6,
       durationSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Knockback (from boss)',
@@ -182,9 +175,9 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ id: '5EB1', source: 'Réplique De Jack' }),
       netRegexJa: NetRegexes.startsUsing({ id: '5EB1', source: '複製サレタジャック' }),
       condition: (data) => !data.cloneLunge,
-      delaySeconds: (data, matches) => matches.duration - 6,
+      delaySeconds: (_data, matches) => matches.duration - 6,
       durationSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       run: (data) => data.cloneLunge = true,
       outputStrings: {
         text: {
@@ -204,9 +197,9 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ id: '60C7', source: 'Jack' }),
       netRegexJa: NetRegexes.startsUsing({ id: '60C7', source: 'ジャック' }),
       // Half a second longer cast time than the Lunge itself
-      delaySeconds: (data, matches) => matches.duration - 6.5,
+      delaySeconds: (_data, matches) => matches.duration - 6.5,
       durationSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Knockback -> Get Middle',
@@ -224,9 +217,9 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.startsUsing({ id: '60C8', source: 'Herzbube' }),
       netRegexFr: NetRegexes.startsUsing({ id: '60C8', source: 'Jack' }),
       netRegexJa: NetRegexes.startsUsing({ id: '60C8', source: 'ジャック' }),
-      delaySeconds: (data, matches) => matches.duration - 6.5,
+      delaySeconds: (_data, matches) => matches.duration - 6.5,
       durationSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Knockback -> Out of Middle',
@@ -244,7 +237,7 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.startsUsing({ id: '5C69', source: 'Gretel', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '5C69', source: 'Gretel', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '5C69', source: 'グレーテル', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Attack Hansel',
@@ -262,7 +255,7 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.startsUsing({ id: '5C6B', source: 'Hänsel', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '5C6B', source: 'Hansel', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '5C6B', source: 'ヘンゼル', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Attack Gretel',
@@ -304,14 +297,7 @@ Options.Triggers.push({
           return output.text();
       },
       outputStrings: {
-        text: {
-          en: 'Spread',
-          de: 'verteilen',
-          fr: 'Dispersez-vous',
-          ja: '散開',
-          cn: '散开',
-          ko: '산개',
-        },
+        text: Outputs.spread,
       },
     },
     {
@@ -329,22 +315,8 @@ Options.Triggers.push({
       },
       run: (data) => delete data.seedTargets,
       outputStrings: {
-        stackOnYou: {
-          en: 'Stack on YOU',
-          de: 'Auf DIR sammeln',
-          fr: 'Package sur VOUS',
-          ja: '自分にスタック',
-          cn: '集合点名',
-          ko: '쉐어징 대상자',
-        },
-        stackOn: {
-          en: 'Stack on ${player}',
-          de: 'Auf ${player} sammeln',
-          fr: 'Packez-vous sur ${player}',
-          ja: '${player}にスタック',
-          cn: '靠近 ${player}集合',
-          ko: '"${player}" 쉐어징',
-        },
+        stackOnYou: Outputs.stackOnYou,
+        stackOn: Outputs.stackOnPlayer,
       },
     },
     {
@@ -371,7 +343,7 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.startsUsing({ id: '618D', source: 'Rot(?:e|er|es|en) Sphäre', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '618D', source: 'Noyau Orange', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '618D', source: '赤球', capture: false }),
-      infoText: (data, _, output) => {
+      infoText: (data, _matches, output) => {
         // Skip the first callout, since you're still zoning in
         if (data.seenSphere)
           return output.text();
@@ -394,7 +366,7 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.startsUsing({ id: '618E', source: 'Rot(?:e|er|es|en) Sphäre', capture: false }),
       netRegexFr: NetRegexes.startsUsing({ id: '618E', source: 'Noyau Orange', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ id: '618E', source: '赤球', capture: false }),
-      infoText: (data, _, output) => {
+      infoText: (data, _matches, output) => {
         if (data.seenSphere)
           return output.text();
       },
@@ -451,7 +423,7 @@ Options.Triggers.push({
       id: 'Paradigm False Idol Lighter Note',
       netRegex: NetRegexes.headMarker({ id: '0001' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Lighter Note on YOU',
@@ -467,7 +439,7 @@ Options.Triggers.push({
       id: 'Paradigm False Idol Darker Note You',
       netRegex: NetRegexes.headMarker({ id: '008B' }),
       condition: Conditions.targetIsYou(),
-      response: Responses.tankBuster('alert'),
+      response: Responses.tankBuster(),
     },
     {
       id: 'Paradigm False Idol Darker Note Collect',
@@ -482,7 +454,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker({ id: '008B', capture: false }),
       delaySeconds: 0.5,
       suppressSeconds: 5,
-      infoText: (data, _, output) => {
+      infoText: (data, _matches, output) => {
         if (!data.busterTargets)
           return;
         if (data.busterTargets.includes(data.me))
@@ -493,14 +465,7 @@ Options.Triggers.push({
       },
       run: (data) => delete data.busterTargets,
       outputStrings: {
-        tankBuster: {
-          en: 'Tank Buster',
-          de: 'Tank buster',
-          fr: 'Tank buster',
-          ja: 'タンクバスター',
-          cn: '坦克死刑',
-          ko: '탱버',
-        },
+        tankBuster: Outputs.tankBuster,
         avoidTankBuster: {
           en: 'Avoid tank buster',
           de: 'Tank buster ausweichen',
@@ -528,7 +493,7 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.ability({ id: '5BE1', source: 'Déesse Éclose', capture: false }),
       netRegexJa: NetRegexes.ability({ id: '5BE1', source: '開花シタ神', capture: false }),
       durationSeconds: 5,
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Dodge Building Below',
@@ -556,7 +521,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.tether({ id: '0036', target: '開花シタ神', capture: false }),
       preRun: (data) => data.signalCount = (data.signalCount || 0) + 1,
       durationSeconds: 5,
-      alertText: (data, _, output) => {
+      alertText: (data, _matches, output) => {
         if (data.signalCount % 5 === 0)
           return output.text();
       },

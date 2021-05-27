@@ -35,7 +35,7 @@ Options.Triggers.push({
       id: 'Heroes Gauntlet Spectral Tether',
       netRegex: NetRegexes.tether({ id: '000C', capture: false }),
       suppressSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away from tether marker',
@@ -56,7 +56,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ id: '524D', source: '幻光白魔法师' }),
       netRegexKo: NetRegexes.startsUsing({ id: '524D', source: '환상빛의 백마도사' }),
       condition: (data) => data.CanSilence(),
-      response: Responses.interrupt('alert'),
+      response: Responses.interrupt(),
     },
     {
       id: 'Heroes Gauntlet Large Zombie Tether',
@@ -116,7 +116,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '5206', source: '幻光のバーサーカー', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '5206', source: '幻光狂战士', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '5206', source: '환상빛의 광전사', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get in a crater',
@@ -145,7 +145,7 @@ Options.Triggers.push({
       // Otherwise they stack on the rock they drop.
       id: 'Heroes Gauntlet Wild Anguish Collect',
       netRegex: NetRegexes.headMarker({ id: '005D' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.anguish = data.anguish || [];
         data.anguish.push(matches.target);
       },
@@ -155,14 +155,14 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker({ id: '005D' }),
       delaySeconds: 1,
       suppressSeconds: 5,
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.anguish.length > 1)
           return output.stackOnYourRock();
         if (matches.target === data.me)
           return output.stackOnYou();
         return output.stackOn({ player: data.ShortName(matches.target) });
       },
-      run: function(data) {
+      run: (data) => {
         delete data.anguish;
       },
       outputStrings: {
@@ -174,22 +174,8 @@ Options.Triggers.push({
           cn: '与自己的石堆重合',
           ko: '돌과 같이 맞기',
         },
-        stackOnYou: {
-          en: 'Stack on YOU',
-          de: 'Auf DIR sammeln',
-          fr: 'Package sur VOUS',
-          ja: '自分にスタック',
-          cn: '集合点名',
-          ko: '쉐어징 대상자',
-        },
-        stackOn: {
-          en: 'Stack on ${player}',
-          de: 'Auf ${player} sammeln',
-          fr: 'Packez-vous sur ${player}',
-          ja: '${player}にスタック',
-          cn: '靠近${player}集合',
-          ko: '"${player}" 쉐어징',
-        },
+        stackOnYou: Outputs.stackOnYou,
+        stackOn: Outputs.stackOnPlayer,
       },
     },
     {

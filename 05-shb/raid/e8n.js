@@ -18,7 +18,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DD4', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DD4', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DD4', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.mirrorsActive = true;
       },
     },
@@ -30,9 +30,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DDB', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DDB', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DDB', capture: false }),
-      condition: function(data) {
-        return !data.mirrorsActive;
-      },
+      condition: (data) => !data.mirrorsActive,
       response: Responses.getBehind(),
     },
     {
@@ -43,10 +41,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DDC', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DDC', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DDC', capture: false }),
-      condition: function(data) {
-        return !data.mirrorsActive;
-      },
-      alertText: (data, _, output) => output.text(),
+      condition: (data) => !data.mirrorsActive,
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Go Front / Sides',
@@ -66,9 +62,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DE2', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DE2', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DE2', capture: false }),
-      condition: function(data) {
-        return !data.mirrorsActive;
-      },
+      condition: (data) => !data.mirrorsActive,
       response: Responses.getOut(),
     },
     {
@@ -89,10 +83,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DDB', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DDB', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DDB', capture: false }),
-      condition: function(data) {
-        return data.mirrorsActive;
-      },
-      alertText: (data, _, output) => output.text(),
+      condition: (data) => data.mirrorsActive,
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Get behind, then South',
@@ -112,10 +104,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DDC', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DDC', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DDC', capture: false }),
-      condition: function(data) {
-        return data.mirrorsActive;
-      },
-      alertText: (data, _, output) => output.text(),
+      condition: (data) => data.mirrorsActive,
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Go Front / Sides, then North',
@@ -135,9 +125,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'シヴァ', id: '4DE2', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '希瓦', id: '4DE2', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '시바', id: '4DE2', capture: false }),
-      condition: function(data) {
-        return data.mirrorsActive;
-      },
+      condition: (data) => data.mirrorsActive,
       response: Responses.getOutThenIn(),
     },
     {
@@ -149,7 +137,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '冰面镜', id: '4E01', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '얼음 거울', id: '4E01', capture: false }),
       suppressSeconds: 3,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Close to mirrors',
@@ -171,7 +159,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.startsUsing({ source: '얼음 거울', id: ['4DFE', '4DFF', '4E00', '4E01'], capture: false }),
       // Maybe not necessary to delay here, but just to be safe.
       delaySeconds: 5,
-      run: function(data) {
+      run: (data) => {
         data.mirrorsActive = false;
       },
     },
@@ -201,7 +189,7 @@ Options.Triggers.push({
       id: 'E8N Frigid Water',
       netRegex: NetRegexes.headMarker({ id: '0057' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Flare on YOU',
@@ -223,7 +211,7 @@ Options.Triggers.push({
       id: 'E8N Puddle Chase',
       netRegex: NetRegexes.headMarker({ id: '00C5' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: '3x puddles on YOU',
@@ -258,7 +246,7 @@ Options.Triggers.push({
     {
       id: 'E8N Light Rampant Collect',
       netRegex: NetRegexes.headMarker({ id: '0017' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.rampant = data.rampant || {};
         data.rampant[matches.target] = matches.id;
       },
@@ -268,7 +256,7 @@ Options.Triggers.push({
       netRegex: NetRegexes.headMarker({ id: '0017', capture: false }),
       delaySeconds: 0.5,
       suppressSeconds: 2,
-      alertText: function(data, _, output) {
+      alertText: (data, _matches, output) => {
         if (data.rampant[data.me])
           return output.coneOnYouAvoidTowers();
         return output.standInATower();
@@ -300,7 +288,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'シヴァ', id: '4E0B', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '希瓦', id: '4E0B', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '시바', id: '4E0B', capture: false }),
-      run: function(data) {
+      run: (data) => {
         delete data.rampant;
       },
     },

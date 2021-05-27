@@ -10,7 +10,7 @@
 // burnout = burnt strike lightning out
 // shining blade = burnt strike light bait
 const tetherIds = ['0002', '0005', '0006'];
-const boundOfFaithFireTetherResponse = (data, _, output) => {
+const boundOfFaithFireTetherResponse = (data, _matches, output) => {
   // cactbot-builtin-response
   output.responseOutputStrings = {
     stackOnYou: Outputs.stackOnYou,
@@ -24,7 +24,7 @@ const boundOfFaithFireTetherResponse = (data, _, output) => {
     return { alertText: output.stackOnPlayer({ player: output.unknownTarget() }) };
   return { alertText: output.stackOnPlayer({ player: data.ShortName(targets[0]) }) };
 };
-const boundOfFaithLightningTetherResponse = (data, _, output) => {
+const boundOfFaithLightningTetherResponse = (data, _matches, output) => {
   // cactbot-builtin-response
   output.responseOutputStrings = {
     onYou: {
@@ -51,7 +51,7 @@ const boundOfFaithLightningTetherResponse = (data, _, output) => {
   const target = targets.length === 1 ? data.ShortName(targets[0]) : output.unknownTarget();
   return { infoText: output.tetherInfo({ player: target }) };
 };
-const boundOfFaithHolyTetherResponse = (data, _, output) => {
+const boundOfFaithHolyTetherResponse = (data, _matches, output) => {
   // cactbot-builtin-response
   output.responseOutputStrings = {
     awayFromGroup: Outputs.awayFromGroup,
@@ -76,6 +76,7 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '5650', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '5650', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '5650', capture: false }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '5650', capture: false }),
       condition: Conditions.caresAboutAOE(),
       response: Responses.aoe(),
     },
@@ -86,6 +87,7 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '564E' }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '564E' }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '564E' }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '564E' }),
       condition: Conditions.caresAboutMagical(),
       response: Responses.tankBuster(),
     },
@@ -96,9 +98,10 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.gainsEffect({ source: 'Sabreur De Destins', effectId: '993' }),
       netRegexJa: NetRegexes.gainsEffect({ source: 'フェイトブレイカー', effectId: '993' }),
       netRegexCn: NetRegexes.gainsEffect({ source: '绝命战士', effectId: '993' }),
+      netRegexKo: NetRegexes.gainsEffect({ source: '페이트브레이커', effectId: '993' }),
       condition: Conditions.targetIsYou(),
-      delaySeconds: (data, matches) => parseFloat(matches.duration) - 4,
-      alertText: (data, _, output) => output.awayFromGroup(),
+      delaySeconds: (_data, matches) => parseFloat(matches.duration) - 4,
+      alertText: (_data, _matches, output) => output.awayFromGroup(),
       outputStrings: {
         awayFromGroup: Outputs.awayFromGroup,
       },
@@ -110,7 +113,8 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '562C', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '562C', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '562C', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '562C', capture: false }),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Line Cleave -> Knockback',
@@ -129,7 +133,8 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '562E', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '562E', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '562E', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '562E', capture: false }),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Line Cleave -> Out',
@@ -148,7 +153,8 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '5630', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '5630', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '5630', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '5630', capture: false }),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Line Cleave + Bait',
@@ -167,7 +173,8 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'double du Sabreur de destins', id: '5645', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカーの幻影', id: '5645', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士的幻影', id: '5645', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커의 환영', id: '5645', capture: false }),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Dodge Lightning First -> Rotate For Fire',
@@ -186,7 +193,8 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'double du Sabreur de destins', id: '5643', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカーの幻影', id: '5643', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士的幻影', id: '5643', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커의 환영', id: '5643', capture: false }),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Fire Knockback After Lightning',
@@ -219,6 +227,7 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '4B18', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '4B18', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '4B18', capture: false }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '4B18', capture: false }),
       response: boundOfFaithFireTetherResponse,
     },
     {
@@ -228,6 +237,7 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '4B19' }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '4B19' }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '4B19' }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '4B19' }),
       condition: (data, matches) => data.me === matches.target || data.role === 'healer',
       response: boundOfFaithLightningTetherResponse,
     },
@@ -238,6 +248,7 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '4B1B', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '4B1B', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '4B1B', capture: false }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '4B1B', capture: false }),
       response: boundOfFaithHolyTetherResponse,
     },
     {
@@ -247,8 +258,9 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '5639', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '5639', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '5639', capture: false }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '5639', capture: false }),
       durationSeconds: 10,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Fire: Go to Blue',
@@ -267,8 +279,9 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.startsUsing({ source: 'Sabreur De Destins', id: '563A', capture: false }),
       netRegexJa: NetRegexes.startsUsing({ source: 'フェイトブレイカー', id: '563A', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '绝命战士', id: '563A', capture: false }),
+      netRegexKo: NetRegexes.startsUsing({ source: '페이트브레이커', id: '563A', capture: false }),
       durationSeconds: 10,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Lightning: Go to Red',
@@ -405,6 +418,37 @@ Options.Triggers.push({
         'Sinsmoke': '罪炎',
         'Solemn Charge': '急冲刺',
         'Turn Of The Heavens': '光轮召唤',
+      },
+    },
+    {
+      'locale': 'ko',
+      'replaceSync': {
+        'Demi-Gukumatz': '데미구쿠마츠',
+        'Fatebreaker(?!\'s Image)': '페이트브레이커',
+        'Fatebreaker\'s Image': '페이트브레이커의 환영',
+        'Halo Of Flame': '화염 빛무리',
+      },
+      'replaceText': {
+        'Ageless Serpent': '용두용미',
+        'Blastburn': '연소 폭발',
+        'Blasting Zone': '발파 지대',
+        'Brightfire': '광염',
+        '(?<!Mortal )Burn Mark': '폭인',
+        'Burnished Glory': '광염광배',
+        'Burnout': '완전 연소',
+        'Burnt Strike': '연소 공격',
+        'Floating Fetters': '부유 구속',
+        'Mortal Burn Mark': '대폭인',
+        'Powder Mark': '폭인각',
+        'Prismatic Deception': '분광 은신',
+        'Resounding Crack': '마난류',
+        'Shifting Sky': '지천절기',
+        'Shining Blade': '빛나는 칼날',
+        'Sinsight': '죄의 빛',
+        'Sinsmite': '죄의 번개',
+        'Sinsmoke': '죄의 화염',
+        'Solemn Charge': '돌진격',
+        'Turn Of The Heavens': '빛무리 소환',
       },
     },
   ],

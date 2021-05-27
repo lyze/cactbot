@@ -40,7 +40,7 @@ Options.Triggers.push({
       id: 'Kugane Castle Cordage',
       netRegex: NetRegexes.tether({ id: '0011' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Harakiri tether on YOU',
@@ -48,6 +48,7 @@ Options.Triggers.push({
           fr: 'Lien Harakiri sur VOUS',
           ja: '自分にはらきり',
           cn: '切腹点名',
+          ko: '자폭 대상자',
         },
       },
     },
@@ -66,7 +67,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ id: '1EAE', source: '景山', capture: false }),
       netRegexKo: NetRegexes.ability({ id: '1EAE', source: '카게야마', capture: false }),
       suppressSeconds: 15,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Grab gold piles',

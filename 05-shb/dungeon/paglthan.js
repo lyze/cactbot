@@ -35,14 +35,15 @@ Options.Triggers.push({
       id: 'Paglthan Lightning Rod Gain',
       netRegex: NetRegexes.gainsEffect({ effectId: 'A0E' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Go to a lightning rod',
           de: 'Geh zu einem Blitzableiter',
           fr: 'Allez sur un paratonnerre',
-          ja: '塔に円範囲を転嫁',
+          ja: '避雷針に円範囲を転嫁',
           cn: '蹭一下无AoE的塔',
+          ko: '지팡이 AOE 넘기기',
         },
       },
     },
@@ -98,14 +99,15 @@ Options.Triggers.push({
       netRegexFr: NetRegexes.ability({ id: '5B4D', source: 'Luna-Bahamut' }),
       netRegexJa: NetRegexes.ability({ id: '5B4D', source: 'ルナバハムート' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away from circles',
           de: 'Weg von den Kreisen',
           fr: 'Éloignez-vous des cercles',
-          ja: '円に避ける',
+          ja: '円を避ける',
           cn: '远离圈圈',
+          ko: '장판 피하기',
         },
       },
     },
@@ -113,7 +115,7 @@ Options.Triggers.push({
       id: 'Paglthan Kan Rhai Marker',
       netRegex: NetRegexes.headMarker({ id: '0104' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Kan Rhai on YOU',
@@ -131,13 +133,13 @@ Options.Triggers.push({
       netRegexDe: NetRegexes.ability({ id: '5B4F', source: 'Luna-Bahamut', capture: false }),
       netRegexFr: NetRegexes.ability({ id: '5B4F', source: 'Luna-Bahamut', capture: false }),
       netRegexJa: NetRegexes.ability({ id: '5B4F', source: 'ルナバハムート', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away from crosses',
           de: 'Weg von dem Kreuz',
           fr: 'Éloignez-vous des croix',
-          ja: '十字に離れる',
+          ja: '十字から離れる',
           cn: '远离十字',
           ko: '십자 피하기',
         },
@@ -168,7 +170,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '5B4[AB]', source: 'ルナバハムート', capture: false }),
       delaySeconds: 0.5,
       suppressSeconds: 1,
-      alertText: (data, _, output) => {
+      alertText: (data, _matches, output) => {
         if (data.lunarFlares === 5)
           return output.getOutsideBetweenCircles();
         if (data.lunarFlares === 8)
@@ -187,8 +189,9 @@ Options.Triggers.push({
           en: 'Get Outside Between Circles',
           de: 'Geh zum Rand zwichen den Kreisen',
           fr: 'Allez à l\'extérieur entre les cercles',
-          ja: '円の隙間へ',
+          ja: '外周の円の隙間へ',
           cn: '去外圈交接处',
+          ko: '바깥 장판 사이로',
         },
       },
     },

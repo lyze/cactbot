@@ -6,9 +6,7 @@ Options.Triggers.push({
       id: 'Anyder Lash',
       regex: /Lash/,
       beforeSeconds: 5,
-      condition: function(data) {
-        return data.role === 'tank' || data.role === 'healer';
-      },
+      condition: (data) => data.role === 'tank' || data.role === 'healer',
       suppressSeconds: 10,
       response: Responses.miniBuster(),
     },
@@ -24,7 +22,7 @@ Options.Triggers.push({
       id: 'Anyder Aquatic Lance',
       netRegex: NetRegexes.headMarker({ id: '0087' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'puddle on you',
@@ -44,9 +42,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E04', source: ['クラドセラケ', 'ドリオドゥス'] }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E04', source: ['裂口鲨', '原祖鲨'] }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E04', source: ['클라도셀라케', '돌리오두스'] }),
-      condition: function(data, matches) {
-        return matches.target === data.me || data.role === 'healer';
-      },
+      condition: (data, matches) => matches.target === data.me || data.role === 'healer',
       response: Responses.tankBuster(),
     },
     {
@@ -57,7 +53,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E0A', source: 'クラドセラケ', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E0A', source: '裂口鲨', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E0A', source: '클라도셀라케', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away From Swimming Shark',
@@ -77,7 +73,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E0B', source: 'ドリオドゥス', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E0B', source: '原祖鲨', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E0B', source: '돌리오두스', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Sides of Swimming Shark',
@@ -125,9 +121,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '430C', source: 'イビルアーマー' }),
       netRegexCn: NetRegexes.startsUsing({ id: '430C', source: '恶魔装甲' }),
       netRegexKo: NetRegexes.startsUsing({ id: '430C', source: '사악한 갑옷' }),
-      condition: function(data) {
-        return data.CanStun() || data.CanSilence();
-      },
+      condition: (data) => data.CanStun() || data.CanSilence(),
       response: Responses.interrupt(),
     },
     {
@@ -138,9 +132,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3E23', source: 'ケツァクウァトル' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3E23', source: '克察尔科亚特尔' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E23', source: '케찰코아틀' }),
-      condition: function(data, matches) {
-        return matches.target === data.me || data.role === 'healer';
-      },
+      condition: (data, matches) => matches.target === data.me || data.role === 'healer',
       response: Responses.tankBuster(),
     },
     {
@@ -163,7 +155,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ id: '3E1A', source: '克察尔科亚特尔', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3E1A', source: '케찰코아틀', capture: false }),
       delaySeconds: 4.7,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'grab orbs',

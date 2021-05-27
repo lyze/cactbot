@@ -14,7 +14,7 @@ Options.Triggers.push({
       regex: /Shining Blade/,
       beforeSeconds: 3,
       suppressSeconds: 10,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Avoid dashes',
@@ -36,9 +36,7 @@ Options.Triggers.push({
       id: 'The Vault Altar Candle',
       regex: /Altar Candle/,
       beforeSeconds: 5,
-      condition: function(data) {
-        return data.role !== 'dps';
-      },
+      condition: (data) => data.role !== 'dps',
       response: Responses.tankBuster(),
     },
   ],
@@ -62,7 +60,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '101F', source: '聖騎士アデルフェル' }),
       netRegexCn: NetRegexes.startsUsing({ id: '101F', source: '圣骑士阿代尔斐尔' }),
       netRegexKo: NetRegexes.startsUsing({ id: '101F', source: '성기사 아델펠' }),
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         if (data.role === 'healer')
           return output.text({ player: data.ShortName(matches.target) });
       },
@@ -90,9 +88,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '1042', source: 'フェイス・オブ・ヒーロー' }),
       netRegexCn: NetRegexes.startsUsing({ id: '1042', source: '英雄之相' }),
       netRegexKo: NetRegexes.startsUsing({ id: '1042', source: '영웅의 형상' }),
-      condition: function(data) {
-        return data.CanStun();
-      },
+      condition: (data) => data.CanStun(),
       response: Responses.stun(),
     },
     {
@@ -115,7 +111,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.tether({ id: '0001', source: '차원의 틈새' }),
       condition: Conditions.targetIsYou(),
       suppressSeconds: 5,
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Away from rifts',
@@ -148,10 +144,8 @@ Options.Triggers.push({
       // This prevents out-of-combat activation for the March trigger during Charibert's spawn-in.
       id: 'The Vault Knights Activation',
       netRegex: NetRegexes.headMarker({ id: '0061', capture: false }),
-      condition: function(data) {
-        return !data.knightsActive;
-      },
-      run: function(data) {
+      condition: (data) => !data.knightsActive,
+      run: (data) => {
         data.knightsActive = true;
       },
     },
@@ -163,11 +157,9 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatant({ name: ['ドーン・オートナイト', 'ダスク・オートナイト'], capture: false }),
       netRegexCn: NetRegexes.addedCombatant({ name: ['拂晓骑士', '黄昏骑士'], capture: false }),
       netRegexKo: NetRegexes.addedCombatant({ name: ['여명의 자동기사', '황혼의 자동기사'], capture: false }),
-      condition: function(data) {
-        return data.knightsActive;
-      },
+      condition: (data) => data.knightsActive,
       suppressSeconds: 4,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Evade marching knights',

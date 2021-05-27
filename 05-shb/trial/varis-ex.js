@@ -39,7 +39,7 @@ Options.Triggers.push({
       regex: /^Festina Lente$/,
       beforeSeconds: 6,
       durationSeconds: 6,
-      response: function(data, _, output) {
+      response: (data, _matches, output) => {
         // cactbot-builtin-response
         output.responseOutputStrings = {
           dodgeClonesAndStack: {
@@ -50,14 +50,7 @@ Options.Triggers.push({
             cn: '躲避剑气 + 集合分摊',
             ko: '분신 피하기 + 집합',
           },
-          stackMarker: {
-            en: 'Stack',
-            de: 'Sammeln',
-            fr: 'Packez-vous',
-            ja: '頭割り',
-            cn: '分摊',
-            ko: '쉐어뎀',
-          },
+          stackMarker: Outputs.stackMarker,
         };
         // In any case where you need to position stacks in the right lane,
         // use this special call, no matter how far ahead in time it is.
@@ -76,7 +69,7 @@ Options.Triggers.push({
       regex: /^Magitek Burst$/,
       beforeSeconds: 15,
       durationSeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Spread Soon',
@@ -99,7 +92,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CCC', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CCC', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CCC', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.phase = 2;
       },
     },
@@ -111,7 +104,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CE2', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CE2', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CE2', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.phase = 5;
       },
     },
@@ -123,7 +116,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ヴァリスの幻影', id: '4CB3', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯的幻影', id: '4CB3', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스의 환영', id: '4CB3', capture: false }),
-      run: function(data) {
+      run: (data) => {
         data.clonesActive = true;
       },
     },
@@ -135,7 +128,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CCA', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '瓦厉斯·耶·加尔乌斯', id: '4CCA', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '바리스 예 갈부스', id: '4CCA', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Bait Slashes',
@@ -155,7 +148,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CF0' }),
       netRegexCn: NetRegexes.startsUsing({ source: '瓦厉斯·耶·加尔乌斯', id: '4CF0' }),
       netRegexKo: NetRegexes.startsUsing({ source: '바리스 예 갈부스', id: '4CF0' }),
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         const target = matches.target;
         if (data.me === target)
           return output.tankBusterOnYou();
@@ -164,30 +157,9 @@ Options.Triggers.push({
         return output.tankBusterOn({ player: data.ShortName(target) });
       },
       outputStrings: {
-        tankBusterOnYou: {
-          en: 'Tank Buster on YOU',
-          de: 'Tank buster auf DIR',
-          fr: 'Tank buster sur VOUS',
-          ja: '自分にタンクバスター',
-          cn: '死刑点名',
-          ko: '탱버 대상자',
-        },
-        avoidTankCleave: {
-          en: 'Avoid tank cleave',
-          de: 'Tank Cleave ausweichen',
-          fr: 'Évitez le tank cleave',
-          ja: '前方範囲攻撃を避ける',
-          cn: '远离顺劈',
-          ko: '광역 탱버 피하기',
-        },
-        tankBusterOn: {
-          en: 'Tank Buster on ${player}',
-          de: 'Tank buster auf ${player}',
-          fr: 'Tank buster sur ${player}',
-          ja: '${player}にタンクバスター',
-          cn: '死刑 点 ${player}',
-          ko: '"${player}" 탱버',
-        },
+        tankBusterOnYou: Outputs.tankBusterOnYou,
+        avoidTankCleave: Outputs.avoidTankCleave,
+        tankBusterOn: Outputs.tankBusterOnPlayer,
       },
     },
     {
@@ -198,7 +170,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CD2', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '瓦厉斯·耶·加尔乌斯', id: '4CD2', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '바리스 예 갈부스', id: '4CD2', capture: false }),
-      response: Responses.getBehind('alert'),
+      response: Responses.getBehind(),
     },
     {
       // This trigger match the fourth Alea Iacta Est that Varis used.
@@ -212,7 +184,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CD5', capture: false }),
       // Multiple people getting hit by this can cause double triggers.
       suppressSeconds: 1,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Go Front',
@@ -233,7 +205,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CD7', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CD7', capture: false }),
       delaySeconds: 21.5,
-      response: Responses.knockback('alert'),
+      response: Responses.knockback(),
     },
     {
       id: 'VarisEx Reinforced Gunshield',
@@ -243,10 +215,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CD9', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CD9', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CD9', capture: false }),
-      delaySeconds: function(data) {
-        return data.phase === 2 ? 20 : 10;
-      },
-      alertText: (data, _, output) => output.text(),
+      delaySeconds: (data) => data.phase === 2 ? 20 : 10,
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stop attacking',
@@ -287,17 +257,10 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CDE', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CDE', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CDE', capture: false }),
-      response: function(data, _, output) {
+      response: (data, _matches, output) => {
         // cactbot-builtin-response
         output.responseOutputStrings = {
-          text: {
-            en: 'Spread',
-            de: 'Verteilen',
-            fr: 'Dispersez-vous',
-            ja: '散開',
-            cn: '分散',
-            ko: '산개',
-          },
+          text: Outputs.spread,
         };
         // This is easily forgetable after dodging and seems to get people killed.
         // This also differentiates spread from the spread => stack in the last phase.
@@ -312,7 +275,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.ability({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CEA', capture: false }),
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CEA', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CEA', capture: false }),
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         if (data.role === 'tank')
           return output.grabTethers();
         return output.killAdds();
@@ -346,7 +309,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.ability({ source: '瓦厉斯·耶·加尔乌斯', id: '4CC9', capture: false }),
       netRegexKo: NetRegexes.ability({ source: '바리스 예 갈부스', id: '4CC9', capture: false }),
       delaySeconds: 10,
-      run: function(data) {
+      run: (data) => {
         delete data.suppressDodgeCloneCall;
       },
     },
@@ -359,13 +322,13 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '恩惠终结', id: '4CB4', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '파멸의 종착역', id: '4CB4', capture: false }),
       condition: (data) => data.clonesActive,
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         // Sometimes this is called out with the stack mechanic.
         if (data.suppressDodgeCloneCall)
           return;
         return output.text();
       },
-      run: function(data) {
+      run: (data) => {
         delete data.suppressDodgeCloneCall;
         delete data.clonesActive;
       },
@@ -410,7 +373,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'ヴァリス・イェー・ガルヴァス', id: '4CE[56]', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '瓦厉斯·耶·加尔乌斯', id: '4CE[56]', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '바리스 예 갈부스', id: '4CE[56]', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Bait Puddles Out',

@@ -21,10 +21,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.addedCombatant({ name: '暴風域', capture: false }),
       netRegexCn: NetRegexes.addedCombatant({ name: '暴风领域', capture: false }),
       netRegexKo: NetRegexes.addedCombatant({ name: '폭풍 영역', capture: false }),
-      condition: function(data) {
-        return data.role === 'tank';
-      },
-      infoText: (data, _, output) => output.text(),
+      condition: (data) => data.role === 'tank',
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Hallowed Wind Stack',
@@ -40,7 +38,7 @@ Options.Triggers.push({
       id: 'O6S Demonic Stone',
       netRegex: NetRegexes.headMarker({ id: '0001' }),
       condition: Conditions.targetIsYou(),
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Demonic Stone on YOU',
@@ -55,7 +53,7 @@ Options.Triggers.push({
     {
       id: 'O6S Last Kiss Tracker',
       netRegex: NetRegexes.headMarker({ id: '0017' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.lastKiss = matches.target;
       },
     },
@@ -63,7 +61,7 @@ Options.Triggers.push({
       id: 'O6S Last Kiss Marker',
       netRegex: NetRegexes.headMarker({ id: '0017' }),
       condition: Conditions.targetIsYou(),
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Last Kiss on YOU',
@@ -78,12 +76,12 @@ Options.Triggers.push({
     {
       id: 'O6S Last Kiss',
       netRegex: NetRegexes.gainsEffect({ effectId: '5BF' }),
-      condition: function(data, matches) {
+      condition: (data, matches) => {
         // The person who gets the marker briefly gets the effect, so
         // don't tell them twice.
         return data.me === matches.target && data.lastKiss !== data.me;
       },
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Last Kiss on YOU',

@@ -6,7 +6,7 @@ Options.Triggers.push({
       id: 'E5N Surge Protection Gain',
       netRegex: NetRegexes.gainsEffect({ effectId: '8B4' }),
       condition: Conditions.targetIsYou(),
-      run: function(data) {
+      run: (data) => {
         data.surgeProtection = true;
       },
     },
@@ -14,7 +14,7 @@ Options.Triggers.push({
       id: 'E5N Surge Protection Lose',
       netRegex: NetRegexes.losesEffect({ effectId: '8B4' }),
       condition: Conditions.targetIsYou(),
-      run: function(data) {
+      run: (data) => {
         data.surgeProtection = false;
       },
     },
@@ -38,7 +38,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.ability({ id: '4B8D', source: '라무', capture: false }),
       netRegexCn: NetRegexes.ability({ id: '4B8D', source: '拉姆', capture: false }),
       delaySeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Look for small spear',
@@ -58,7 +58,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4B91', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4B91', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4B91', source: '拉姆', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Look for adds',
@@ -78,7 +78,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4B90', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4B90', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4B90', source: '拉姆', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Fury\'s Bolt',
@@ -109,10 +109,8 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '4B9A', source: 'ラムウ', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '4B9A', source: '라무', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '4B9A', source: '拉姆', capture: false }),
-      condition: function(data) {
-        return !data.surgeProtection;
-      },
-      alertText: (data, _, output) => output.text(),
+      condition: (data) => !data.surgeProtection,
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Grab an orb',
@@ -128,7 +126,7 @@ Options.Triggers.push({
       id: 'E5N Stormcloud',
       netRegex: NetRegexes.headMarker({ id: '006E' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Drop cloud outside',

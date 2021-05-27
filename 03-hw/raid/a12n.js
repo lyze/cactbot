@@ -7,7 +7,7 @@ Options.Triggers.push({
       regex: /Divine Judgment/,
       beforeSeconds: 5,
       suppressSeconds: 9999,
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Limit break now!',
@@ -59,9 +59,9 @@ Options.Triggers.push({
       id: 'A12N Aggravated Assault',
       netRegex: NetRegexes.headMarker({ id: '0010' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       // If the user is targeted for Assault, we need to ensure the stack trigger knows.
-      run: function(data) {
+      run: (data) => {
         data.assault = true;
       },
       outputStrings: {
@@ -80,7 +80,7 @@ Options.Triggers.push({
       id: 'A12N Heat And Solidarity',
       netRegex: NetRegexes.headMarker({ id: '003E' }),
       delaySeconds: 0.5,
-      alertText: function(data, matches, output) {
+      alertText: (data, matches, output) => {
         // If the user was targeted for Assault, they shouldn't stack.
         // Unfortunately, Assault comes after the Shared Sentence marker in the log,
         // so we have to use the collect + delay construction to make calls.
@@ -90,26 +90,12 @@ Options.Triggers.push({
           return output.stackOnYou();
         return output.stackOn({ player: data.ShortName(matches.target) });
       },
-      run: function(data) {
+      run: (data) => {
         delete data.assault;
       },
       outputStrings: {
-        stackOnYou: {
-          en: 'Stack on YOU',
-          de: 'Auf DIR sammeln',
-          fr: 'Package sur VOUS',
-          ja: '自分にスタック',
-          cn: '集合点名',
-          ko: '쉐어징 대상자',
-        },
-        stackOn: {
-          en: 'Stack on ${player}',
-          de: 'Auf ${player} sammeln',
-          fr: 'Packez-vous sur ${player}',
-          ja: '${player}にスタック',
-          cn: '靠近 ${player}集合',
-          ko: '"${player}" 쉐어징',
-        },
+        stackOnYou: Outputs.stackOnYou,
+        stackOn: Outputs.stackOnPlayer,
       },
     },
     {
@@ -120,7 +106,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'アレキサンダー・プライム', id: '1AE5', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '至尊亚历山大', id: '1AE5', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '알렉산더 프라임', id: '1AE5', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Lasers',
@@ -141,7 +127,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.tether({ source: '亚历山大', id: '0036' }),
       netRegexKo: NetRegexes.tether({ source: '알렉산더', id: '0036' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Puddle Tether on YOU',

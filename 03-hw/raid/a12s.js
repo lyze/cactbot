@@ -32,13 +32,13 @@ Options.Triggers.push({
       // Applies to both holy and blazing scourge.
       id: 'A12S Holy Blazing Scourge You',
       netRegex: NetRegexes.headMarker({ id: '001E' }),
-      condition: function(data, matches) {
+      condition: (data, matches) => {
         // Ignore Holy Scourge later in the fight.
         if (data.scourge && data.scourge.length > 2)
           return false;
         return data.me === matches.target;
       },
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Scourge on YOU',
@@ -53,7 +53,7 @@ Options.Triggers.push({
     {
       id: 'A12S Blazing Scourge Collect',
       netRegex: NetRegexes.headMarker({ id: '001E' }),
-      run: function(data, matches) {
+      run: (data, matches) => {
         data.scourge = data.scourge || [];
         data.scourge.push(matches.target);
       },
@@ -61,7 +61,7 @@ Options.Triggers.push({
     {
       id: 'A12S Blazing Scourge Report',
       netRegex: NetRegexes.headMarker({ id: '001E', capture: false }),
-      condition: function(data) {
+      condition: (data) => {
         // Ignore Holy Scourge later in the fight.
         if (data.scourge && data.scourge.length > 2)
           return false;
@@ -69,7 +69,7 @@ Options.Triggers.push({
       },
       delaySeconds: 0.5,
       suppressSeconds: 1,
-      infoText: function(data, _, output) {
+      infoText: (data, _matches, output) => {
         // Ignore Holy Scourge later in the fight.
         if (data.scourge && data.scourge.length > 2)
           return false;
@@ -113,7 +113,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ source: 'アレキサンダー・プライム', id: '19EB', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ source: '至尊亚历山大', id: '19EB', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '알렉산더 프라임', id: '19EB', capture: false }),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Lasers',
@@ -138,10 +138,8 @@ Options.Triggers.push({
     {
       id: 'A12S House Arrest',
       netRegex: NetRegexes.tether({ id: '001C' }),
-      condition: function(data, matches) {
-        return matches.source === data.me || matches.target === data.me;
-      },
-      infoText: function(data, matches, output) {
+      condition: (data, matches) => matches.source === data.me || matches.target === data.me,
+      infoText: (data, matches, output) => {
         const partner = matches.source === data.me ? matches.target : matches.source;
         return output.text({ player: data.ShortName(partner) });
       },
@@ -159,10 +157,8 @@ Options.Triggers.push({
     {
       id: 'A12S Restraining Order',
       netRegex: NetRegexes.tether({ id: '001D' }),
-      condition: function(data, matches) {
-        return matches.source === data.me || matches.target === data.me;
-      },
-      alertText: function(data, matches, output) {
+      condition: (data, matches) => matches.source === data.me || matches.target === data.me,
+      alertText: (data, matches, output) => {
         const partner = matches.source === data.me ? matches.target : matches.source;
         return output.text({ player: data.ShortName(partner) });
       },
@@ -181,7 +177,7 @@ Options.Triggers.push({
       id: 'A12S Shared Sentence',
       netRegex: NetRegexes.gainsEffect({ effectId: '462' }),
       condition: Conditions.targetIsYou(),
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Shared Sentence',
@@ -197,7 +193,7 @@ Options.Triggers.push({
       id: 'A12S Defamation',
       netRegex: NetRegexes.gainsEffect({ effectId: '460' }),
       condition: Conditions.targetIsYou(),
-      alarmText: (data, _, output) => output.text(),
+      alarmText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Defamation',
@@ -213,7 +209,7 @@ Options.Triggers.push({
       id: 'A12S Judgment Crystal',
       netRegex: NetRegexes.headMarker({ id: '0017' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Crystal on YOU',
@@ -234,7 +230,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ source: '至尊亚历山大', id: '1A0B', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ source: '알렉산더 프라임', id: '1A0B', capture: false }),
       condition: Conditions.caresAboutMagical(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Shared Tankbuster',
@@ -265,7 +261,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.tether({ source: '亚历山大', id: '0036' }),
       netRegexKo: NetRegexes.tether({ source: '알렉산더', id: '0036' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Puddle Tether on YOU',

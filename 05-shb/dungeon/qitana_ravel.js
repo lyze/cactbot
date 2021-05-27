@@ -10,9 +10,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3C89', source: 'ロツァトル' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3C89', source: '洛查特尔' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3C89', source: '로차틀' }),
-      condition: function(data, matches) {
-        return matches.target === data.me || data.role === 'healer';
-      },
+      condition: (data, matches) => matches.target === data.me || data.role === 'healer',
       response: Responses.tankBuster(),
     },
     {
@@ -35,7 +33,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.startsUsing({ id: '3C8B', source: '洛查特尔', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3C8B', source: '로차틀', capture: false }),
       delaySeconds: 5,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Look for pillar',
@@ -57,7 +55,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.startsUsing({ id: '3C8D', source: '로차틀', capture: false }),
       delaySeconds: 6,
       durationSeconds: 6,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stay on left flank',
@@ -79,7 +77,7 @@ Options.Triggers.push({
       netRegexKo: NetRegexes.startsUsing({ id: '3C8E', source: '로차틀', capture: false }),
       delaySeconds: 6,
       durationSeconds: 6,
-      infoText: (data, _, output) => output.text(),
+      infoText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Stay on right flank',
@@ -99,9 +97,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3C91', source: 'バッツカッチ' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3C91', source: '大脚野蝠' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3C91', source: '배츠콰치' }),
-      condition: function(data, matches) {
-        return matches.target === data.me || data.role === 'healer';
-      },
+      condition: (data, matches) => matches.target === data.me || data.role === 'healer',
       response: Responses.tankBuster(),
     },
     {
@@ -134,9 +130,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3C99', source: 'エロース' }),
       netRegexCn: NetRegexes.startsUsing({ id: '3C99', source: '艾洛斯' }),
       netRegexKo: NetRegexes.startsUsing({ id: '3C99', source: '에로스' }),
-      condition: function(data, matches) {
-        return matches.target === data.me || data.role === 'healer';
-      },
+      condition: (data, matches) => matches.target === data.me || data.role === 'healer',
       response: Responses.tankBuster(),
     },
     {
@@ -159,7 +153,7 @@ Options.Triggers.push({
       netRegexCn: NetRegexes.tether({ id: '0039', source: '艾洛斯' }),
       netRegexKo: NetRegexes.tether({ id: '0039', source: '에로스' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Run Away From Boss',
@@ -175,7 +169,7 @@ Options.Triggers.push({
       id: 'Qitana Viper Poison',
       netRegex: NetRegexes.headMarker({ id: '00AB' }),
       condition: Conditions.targetIsYou(),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Drop Poison Outside',
@@ -190,7 +184,7 @@ Options.Triggers.push({
     {
       id: 'Qitana Confession of Faith Stack',
       netRegex: NetRegexes.headMarker({ id: '003E' }),
-      response: Responses.stackMarkerOn('alert'),
+      response: Responses.stackMarkerOn(),
     },
     {
       id: 'Qitana Confession of Faith Spread',
@@ -200,7 +194,7 @@ Options.Triggers.push({
       netRegexJa: NetRegexes.startsUsing({ id: '3CA1', source: 'エロース', capture: false }),
       netRegexCn: NetRegexes.startsUsing({ id: '3CA1', source: '艾洛斯', capture: false }),
       netRegexKo: NetRegexes.startsUsing({ id: '3CA1', source: '에로스', capture: false }),
-      alertText: (data, _, output) => output.text(),
+      alertText: (_data, _matches, output) => output.text(),
       outputStrings: {
         text: {
           en: 'Spread to Sides',
